@@ -56,46 +56,39 @@ local function Stroke(object: Instance, thickness: number?, transparency: number
 	return stroke
 end
 
--- Sistema de Notificaciones 3D (Toast)
+-- Sistema de Notificaciones Compactas (Toast Optimizadas)
 local NotificationGui = Instance.new("ScreenGui")
 NotificationGui.Name, NotificationGui.ResetOnSpawn, NotificationGui.Parent = "HelloKittyHub_Notifications", false, PlayerGui
 
 local NotificationContainer = Instance.new("Frame")
-NotificationContainer.Size, NotificationContainer.Position, NotificationContainer.BackgroundTransparency, NotificationContainer.Parent = UDim2.new(0, 220, 1, 0), UDim2.new(1, -230, 0, 0), 1, NotificationGui
+NotificationContainer.Size, NotificationContainer.Position, NotificationContainer.BackgroundTransparency, NotificationContainer.Parent = UDim2.new(0, 180, 1, 0), UDim2.new(1, -190, 0, 0), 1, NotificationGui
 
 local NotifLayout = Instance.new("UIListLayout")
 NotifLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 NotifLayout.SortOrder = Enum.SortOrder.LayoutOrder
-NotifLayout.Padding = UDim.new(0, 8)
+NotifLayout.Padding = UDim.new(0, 6)
 NotifLayout.Parent = NotificationContainer
 
 local function ShowNotification(title: string, text: string, color: Color3?)
 	task.spawn(function()
 		local Card = Instance.new("Frame")
-		Card.Size, Card.BackgroundColor3, Card.BackgroundTransparency, Card.BorderSizePixel = UDim2.new(1, 0, 0, 48), Color3.fromRGB(14, 14, 18), 0.2, 0
+		Card.Size, Card.BackgroundColor3, Card.BackgroundTransparency, Card.BorderSizePixel = UDim2.new(1, 0, 0, 36), Color3.fromRGB(18, 18, 24), 0.1, 0
 		Card.Parent = NotificationContainer
-		Corner(Card, 8)
-		local stroke = Stroke(Card, 1, 0.4)
+		Corner(Card, 6)
+		local stroke = Stroke(Card, 1, 0.5)
 		stroke.Color = color or Color3.fromRGB(255, 105, 180)
 		
-		-- Sombra 3D profunda
-		local shadow = Instance.new("UIStroke")
-		shadow.Thickness = 3
-		shadow.Transparency = 0.7
-		shadow.Color = Color3.fromRGB(0, 0, 0)
-		shadow.Parent = Card
-		
 		local TLab = Instance.new("TextLabel")
-		TLab.Size, TLab.Position, TLab.BackgroundTransparency, TLab.Font, TLab.TextColor3, TLab.TextSize, TLab.TextXAlignment, TLab.Text, TLab.Parent = UDim2.new(1, -12, 0, 18), UDim2.new(0, 8, 0, 4), 1, Enum.Font.GothamBold, color or Color3.fromRGB(255, 175, 200), 11, Enum.TextXAlignment.Left, title, Card
+		TLab.Size, TLab.Position, TLab.BackgroundTransparency, TLab.Font, TLab.TextColor3, TLab.TextSize, TLab.TextXAlignment, TLab.Text, TLab.Parent = UDim2.new(1, -8, 0, 14), UDim2.new(0, 6, 0, 2), 1, Enum.Font.GothamBold, color or Color3.fromRGB(255, 175, 200), 10, Enum.TextXAlignment.Left, title, Card
 		
 		local SubLab = Instance.new("TextLabel")
-		SubLab.Size, SubLab.Position, SubLab.BackgroundTransparency, SubLab.Font, SubLab.TextColor3, SubLab.TextSize, SubLab.TextXAlignment, SubLab.Text, SubLab.Parent = UDim2.new(1, -12, 0, 18), UDim2.new(0, 8, 0, 22), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 205), 9, Enum.TextXAlignment.Left, text, Card
+		SubLab.Size, SubLab.Position, SubLab.BackgroundTransparency, SubLab.Font, SubLab.TextColor3, SubLab.TextSize, SubLab.TextXAlignment, SubLab.Text, SubLab.Parent = UDim2.new(1, -8, 0, 16), UDim2.new(0, 6, 0, 16), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 205), 8, Enum.TextXAlignment.Left, text, Card
 
-		Card.Position = UDim2.new(1, 50, Card.Position.Scale, Card.Position.Offset)
-		Tween(Card, 0.3, {Position = UDim2.new(0, 0, 0, 0)}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+		Card.Position = UDim2.new(1, 40, Card.Position.Scale, Card.Position.Offset)
+		Tween(Card, 0.25, {Position = UDim2.new(0, 0, 0, 0)}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 		
-		task.wait(2.5)
-		Tween(Card, 0.2, {Position = UDim2.new(1, 50, 0, 0), BackgroundTransparency = 1}, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+		task.wait(2)
+		Tween(Card, 0.2, {Position = UDim2.new(1, 40, 0, 0), BackgroundTransparency = 1}, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
 		task.wait(0.2)
 		Card:Destroy()
 	end)
@@ -117,9 +110,9 @@ local MinimizedGui = Instance.new("ScreenGui")
 MinimizedGui.Name, MinimizedGui.ResetOnSpawn, MinimizedGui.Enabled, MinimizedGui.Parent = "HelloKittyHub_Minimized", false, false, PlayerGui
 
 local MinimizedBtn = Instance.new("ImageButton")
-MinimizedBtn.Name, MinimizedBtn.AnchorPoint, MinimizedBtn.Position, MinimizedBtn.Size = "MinimizedBtn", Vector2.new(0.5, 0.5), UDim2.new(0.7, 0, 0.5, 0), UDim2.fromOffset(42, 42)
+MinimizedBtn.Name, MinimizedBtn.AnchorPoint, MinimizedBtn.Position, MinimizedBtn.Size = "MinimizedBtn", Vector2.new(0.5, 0.5), UDim2.new(0.7, 0, 0.5, 0), UDim2.fromOffset(40, 40)
 MinimizedBtn.BackgroundColor3, MinimizedBtn.AutoButtonColor, MinimizedBtn.Active, MinimizedBtn.Parent = Color3.fromRGB(12, 12, 15), false, true, MinimizedGui
-Corner(MinimizedBtn, 14)
+Corner(MinimizedBtn, 12)
 local MinBorder = Stroke(MinimizedBtn, 1, 0.1)
 
 local MinGradient = Instance.new("UIGradient")
@@ -144,7 +137,6 @@ local dragging, dragInput, dragStart, startPos, dragDistance = false, nil, nil, 
 MinimizedBtn.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging, dragStart, startPos, dragDistance = true, input.Position, MinimizedBtn.Position, 0
-		Tween(MinimizedBtn, 0.1, {Size = UDim2.fromOffset(38, 38)}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 	end
 end)
 MinimizedBtn.InputChanged:Connect(function(input)
@@ -161,15 +153,8 @@ end)
 local Main = Instance.new("Frame")
 Main.Name, Main.AnchorPoint, Main.Position, Main.Size = "Main", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(frameWidth, frameHeight)
 Main.BackgroundColor3, Main.BackgroundTransparency, Main.BorderSizePixel, Main.Active, Main.Draggable, Main.ClipsDescendants, Main.Visible, Main.Parent = Color3.fromRGB(12, 12, 15), 0, 0, true, true, true, false, ScreenGui
-Corner(Main, 16)
+Corner(Main, 14)
 local MainBorder = Stroke(Main, 1, 0.1)
-
--- Sombra 3D Profunda para el Hub Principal
-local MainShadow = Instance.new("UIStroke")
-MainShadow.Thickness = 4
-MainShadow.Transparency = 0.6
-MainShadow.Color = Color3.fromRGB(0, 0, 0)
-MainShadow.Parent = Main
 
 local MainGradient = Instance.new("UIGradient")
 MainGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 20, 147)), ColorSequenceKeypoint.new(0.25, Color3.fromRGB(255, 105, 180)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 182, 193)), ColorSequenceKeypoint.new(0.75, Color3.fromRGB(255, 105, 180)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 20, 147))})
@@ -188,7 +173,6 @@ end)
 MinimizedBtn.InputEnded:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = false
-		Tween(MinimizedBtn, 0.15, {Size = UDim2.fromOffset(42, 42)}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 		if dragDistance < 8 then
 			PlaySound(SOUND_OPEN)
 			MinimizedGui.Enabled = false
@@ -238,18 +222,12 @@ MinimizeButton.MouseButton1Click:Connect(function()
 	task.delay(0.2, function() Main.Visible, Main.Size, Main.BackgroundTransparency, MinimizedGui.Enabled = false, UDim2.fromOffset(frameWidth, frameHeight), 0, true end)
 end)
 
--- Key System con Fondo Cinético 3D (Efecto Cinta Transportadora Deslizante)
+-- Key System Mejorado (Fondo Negro/Gris con Textura Gradiente Dinámica)
 local KeyFrame = Instance.new("Frame")
 KeyFrame.Name, KeyFrame.AnchorPoint, KeyFrame.Position, KeyFrame.Size = "KeyFrame", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(keyFrameWidth, keyFrameHeight)
-KeyFrame.BackgroundColor3, KeyFrame.BorderSizePixel, KeyFrame.Active, KeyFrame.Draggable, KeyFrame.ClipsDescendants, KeyFrame.Parent = Color3.fromRGB(12, 12, 15), 0, true, true, true, ScreenGui
-Corner(KeyFrame, 16)
+KeyFrame.BackgroundColor3, KeyFrame.BorderSizePixel, KeyFrame.Active, KeyFrame.Draggable, KeyFrame.ClipsDescendants, KeyFrame.Parent = Color3.fromRGB(10, 10, 14), 0, true, true, true, ScreenGui
+Corner(KeyFrame, 14)
 local KeyBorder = Stroke(KeyFrame, 1, 0.1)
-
-local KeyShadow = Instance.new("UIStroke")
-KeyShadow.Thickness = 4
-KeyShadow.Transparency = 0.6
-KeyShadow.Color = Color3.fromRGB(0, 0, 0)
-KeyShadow.Parent = KeyFrame
 
 local KeyGradient = Instance.new("UIGradient")
 KeyGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 20, 147)), ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 182, 193)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 20, 147))})
@@ -265,19 +243,14 @@ task.spawn(function()
 	end
 end)
 
--- Fondo Animado Tipo Cinta Transportadora (Parallax 3D Cinemático)
-local KeyBgImage = Instance.new("ImageLabel")
-KeyBgImage.Name, KeyBgImage.Size, KeyBgImage.BackgroundTransparency, KeyBgImage.Image, KeyBgImage.ImageTransparency, KeyBgImage.ScaleType, KeyBgImage.Parent = "KeyBgImage", UDim2.fromScale(1, 1), 1, "rbxassetid://17770566843", 0.6, Enum.ScaleType.Tile, KeyFrame
-KeyBgImage.TileSize = UDim2.fromOffset(256, 256)
+-- Fondo Oscuro Texturizado Profesional (Negro y Gris Profundo)
+local KeyDarkBg = Instance.new("Frame")
+KeyDarkBg.Size, KeyDarkBg.BackgroundColor3, KeyDarkBg.BackgroundTransparency, KeyDarkBg.BorderSizePixel, KeyDarkBg.Parent = UDim2.fromScale(1, 1), Color3.fromRGB(15, 15, 20), 0.2, 0, KeyFrame
 
-task.spawn(function()
-	local offset = 0
-	while KeyBgImage and KeyBgImage.Parent do
-		offset = (offset + 0.001) % 1
-		KeyBgImage.ImageRectOffset = Vector2.new(offset * 256, 0)
-		RunService.RenderStepped:Wait()
-	end
-end)
+local KeyDarkGradient = Instance.new("UIGradient")
+KeyDarkGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(25, 25, 32)), ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 14))})
+KeyDarkGradient.Rotation = 45
+KeyDarkGradient.Parent = KeyDarkBg
 
 local KeyCloseBtn = Instance.new("ImageButton")
 KeyCloseBtn.Name, KeyCloseBtn.AnchorPoint, KeyCloseBtn.Position, KeyCloseBtn.Size = "KeyCloseBtn", Vector2.new(1, 0), UDim2.new(0.97, 0, 0, 8), UDim2.fromOffset(22, 22)
@@ -291,7 +264,7 @@ local KeyTitle = Instance.new("TextLabel")
 KeyTitle.Size, KeyTitle.Position, KeyTitle.BackgroundTransparency, KeyTitle.Text, KeyTitle.TextColor3, KeyTitle.TextSize, KeyTitle.Font, KeyTitle.TextXAlignment, KeyTitle.Parent = UDim2.new(1, -20, 0, 18), UDim2.new(0, 12, 0, 10), 1, "Key System", Color3.fromRGB(255, 175, 200), 15, Enum.Font.GothamBold, Enum.TextXAlignment.Left, KeyLeftArea
 
 local KeyTextBox = Instance.new("TextBox")
-KeyTextBox.Size, KeyTextBox.Position, KeyTextBox.BackgroundColor3, KeyTextBox.Font, KeyTextBox.PlaceholderText, KeyTextBox.PlaceholderColor3, KeyTextBox.Text, KeyTextBox.TextColor3, KeyTextBox.TextSize, KeyTextBox.Parent = UDim2.new(1, -24, 0, 28), UDim2.new(0, 12, 0, 32), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Enter Key Here...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 11, KeyLeftArea
+KeyTextBox.Size, KeyTextBox.Position, KeyTextBox.BackgroundColor3, KeyTextBox.Font, KeyTextBox.PlaceholderText, KeyTextBox.PlaceholderColor3, KeyTextBox.Text, KeyTextBox.TextColor3, KeyTextBox.TextSize, KeyTextBox.Parent = UDim2.new(1, -24, 0, 28), UDim2.new(0, 12, 0, 32), Color3.fromRGB(20, 20, 28), Enum.Font.GothamMedium, "Enter Key Here...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 11, KeyLeftArea
 Corner(KeyTextBox, 6)
 local KeyBoxStroke = Stroke(KeyTextBox, 1, 0.7)
 
@@ -304,12 +277,12 @@ local KeyInfoSubText = Instance.new("TextLabel")
 KeyInfoSubText.Size, KeyInfoSubText.Position, KeyInfoSubText.BackgroundTransparency, KeyInfoSubText.Font, KeyInfoSubText.TextColor3, KeyInfoSubText.TextSize, KeyInfoSubText.TextWrapped, KeyInfoSubText.TextXAlignment, KeyInfoSubText.TextYAlignment, KeyInfoSubText.Text, KeyInfoSubText.Parent = UDim2.new(1, -24, 0, 65), UDim2.new(0, 12, 0, 98), 1, Enum.Font.GothamMedium, Color3.fromRGB(190, 190, 195), isMobile and 8 or 9, true, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, "bienvenido al sistema de key de hello kitty entra al servidor oficial para obtener la key", KeyLeftArea
 
 local KeyRightArea = Instance.new("Frame")
-KeyRightArea.Size, KeyRightArea.Position, KeyRightArea.BackgroundColor3, KeyRightArea.Parent = UDim2.new(0.43, -8, 1, -16), UDim2.new(0.55, 0, 0, 8), Color3.fromRGB(16, 16, 22), KeyFrame
+KeyRightArea.Size, KeyRightArea.Position, KeyRightArea.BackgroundColor3, KeyRightArea.Parent = UDim2.new(0.43, -8, 1, -16), UDim2.new(0.55, 0, 0, 8), Color3.fromRGB(20, 20, 28), KeyFrame
 Corner(KeyRightArea, 8)
 Stroke(KeyRightArea, 1, 0.7)
 
 local GameBannerImg = Instance.new("ImageLabel")
-GameBannerImg.Size, GameBannerImg.Position, GameBannerImg.BackgroundColor3 = UDim2.new(1, -10, 0, 75), UDim2.new(0, 5, 0, 5), Color3.fromRGB(22, 22, 28)
+GameBannerImg.Size, GameBannerImg.Position, GameBannerImg.BackgroundColor3 = UDim2.new(1, -10, 0, 75), UDim2.new(0, 5, 0, 5), Color3.fromRGB(25, 25, 34)
 GameBannerImg.Image, GameBannerImg.ScaleType, GameBannerImg.Parent = gameIconId > 0 and ("rbxassetid://" .. tostring(gameIconId)) or "rbxassetid://6023426915", Enum.ScaleType.Crop, KeyRightArea
 Corner(GameBannerImg, 6)
 Stroke(GameBannerImg, 1, 0.5)
@@ -398,22 +371,25 @@ if tabButtons["Main"] then
 	tabFrames["Main"].Visible = true
 end
 
+-- NUEVO DISEÑO MODULAR 3D PARA OPCIONES Y TOGGLES
 local function createToggle(parent: Instance, title: string, callback: (boolean) -> ())
 	local ToggleFrame = Instance.new("Frame")
-	ToggleFrame.Size, ToggleFrame.BackgroundColor3, ToggleFrame.BorderSizePixel, ToggleFrame.Parent = UDim2.new(1, 0, 0, 30), Color3.fromRGB(16, 16, 20), 0, parent
-	Corner(ToggleFrame, 6)
-	Stroke(ToggleFrame, 1, 0.7)
+	ToggleFrame.Size, ToggleFrame.BackgroundColor3, ToggleFrame.BorderSizePixel, ToggleFrame.Parent = UDim2.new(1, 0, 0, 32), Color3.fromRGB(16, 16, 22), 0, parent
+	Corner(ToggleFrame, 8)
+	local TStroke = Stroke(ToggleFrame, 1, 0.6)
+	TStroke.Color = Color3.fromRGB(45, 45, 60)
 
 	local Label = Instance.new("TextLabel")
-	Label.Size, Label.Position, Label.BackgroundTransparency, Label.Font, Label.TextColor3, Label.TextSize, Label.TextXAlignment, Label.Text, Label.Parent = UDim2.new(1, -45, 1, 0), UDim2.new(0, 8, 0, 0), 1, Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, Enum.TextXAlignment.Left, title, ToggleFrame
+	Label.Size, Label.Position, Label.BackgroundTransparency, Label.Font, Label.TextColor3, Label.TextSize, Label.TextXAlignment, Label.Text, Label.Parent = UDim2.new(1, -55, 1, 0), UDim2.new(0, 10, 0, 0), 1, Enum.Font.GothamMedium, Color3.fromRGB(230, 230, 235), 11, Enum.TextXAlignment.Left, title, ToggleFrame
 
 	local SwitchBg = Instance.new("Frame")
-	SwitchBg.Size, SwitchBg.AnchorPoint, SwitchBg.Position, SwitchBg.BackgroundColor3, SwitchBg.BorderSizePixel, SwitchBg.Parent = UDim2.fromOffset(34, 16), Vector2.new(1, 0.5), UDim2.new(1, -8, 0.5, 0), Color3.fromRGB(30, 30, 38), 0, ToggleFrame
-	Corner(SwitchBg, 8)
+	SwitchBg.Size, SwitchBg.AnchorPoint, SwitchBg.Position, SwitchBg.BackgroundColor3, SwitchBg.BorderSizePixel, SwitchBg.Parent = UDim2.fromOffset(36, 18), Vector2.new(1, 0.5), UDim2.new(1, -10, 0.5, 0), Color3.fromRGB(24, 24, 32), 0, ToggleFrame
+	Corner(SwitchBg, 9)
+	Stroke(SwitchBg, 1, 0.4)
 
 	local SwitchCircle = Instance.new("Frame")
-	SwitchCircle.Size, SwitchCircle.Position, SwitchCircle.BackgroundColor3, SwitchCircle.BorderSizePixel, SwitchCircle.Parent = UDim2.fromOffset(12, 12), UDim2.new(0, 2, 0.5, -6), Color3.fromRGB(150, 150, 155), 0, SwitchBg
-	Corner(SwitchCircle, 6)
+	SwitchCircle.Size, SwitchCircle.Position, SwitchCircle.BackgroundColor3, SwitchCircle.BorderSizePixel, SwitchCircle.Parent = UDim2.fromOffset(14, 14), UDim2.new(0, 2, 0.5, -7), Color3.fromRGB(160, 160, 170), 0, SwitchBg
+	Corner(SwitchCircle, 7)
 
 	local state = false
 	local ToggleBtn = Instance.new("TextButton")
@@ -423,11 +399,13 @@ local function createToggle(parent: Instance, title: string, callback: (boolean)
 		state = not state
 		if state then
 			Tween(SwitchBg, 0.2, {BackgroundColor3 = Color3.fromRGB(255, 105, 180)})
-			Tween(SwitchCircle, 0.2, {Position = UDim2.new(1, -14, 0.5, -6), BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+			Tween(SwitchCircle, 0.2, {Position = UDim2.new(1, -16, 0.5, -7), BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+			Tween(TStroke, 0.2, {Color = Color3.fromRGB(255, 105, 180)})
 			ShowNotification(title, "Enabled", Color3.fromRGB(255, 105, 180))
 		else
-			Tween(SwitchBg, 0.2, {BackgroundColor3 = Color3.fromRGB(30, 30, 38)})
-			Tween(SwitchCircle, 0.2, {Position = UDim2.new(0, 2, 0.5, -6), BackgroundColor3 = Color3.fromRGB(150, 150, 155)})
+			Tween(SwitchBg, 0.2, {BackgroundColor3 = Color3.fromRGB(24, 24, 32)})
+			Tween(SwitchCircle, 0.2, {Position = UDim2.new(0, 2, 0.5, -7), BackgroundColor3 = Color3.fromRGB(160, 160, 170)})
+			Tween(TStroke, 0.2, {Color = Color3.fromRGB(45, 45, 60)})
 			ShowNotification(title, "Disabled", Color3.fromRGB(150, 150, 155))
 		end
 		callback(state)
@@ -494,15 +472,15 @@ local FOVSubLayout = Instance.new("UIListLayout")
 FOVSubLayout.SortOrder, FOVSubLayout.Padding, FOVSubLayout.Parent = Enum.SortOrder.LayoutOrder, UDim.new(0, 5), FOVSubOptionsContainer
 
 local SliderContainer = Instance.new("Frame")
-SliderContainer.Size, SliderContainer.BackgroundColor3, SliderContainer.BorderSizePixel, SliderContainer.Parent = UDim2.new(1, 0, 0, 36), Color3.fromRGB(16, 16, 20), 0, FOVSubOptionsContainer
-Corner(SliderContainer, 6)
-Stroke(SliderContainer, 1, 0.7)
+SliderContainer.Size, SliderContainer.BackgroundColor3, SliderContainer.BorderSizePixel, SliderContainer.Parent = UDim2.new(1, 0, 0, 36), Color3.fromRGB(16, 16, 22), 0, FOVSubOptionsContainer
+Corner(SliderContainer, 8)
+Stroke(SliderContainer, 1, 0.6).Color = Color3.fromRGB(45, 45, 60)
 
 local SliderLabel = Instance.new("TextLabel")
-SliderLabel.Size, SliderLabel.Position, SliderLabel.BackgroundTransparency, SliderLabel.Font, SliderLabel.TextColor3, SliderLabel.TextSize, SliderLabel.TextXAlignment, SliderLabel.Text, SliderLabel.Parent = UDim2.new(1, -12, 0, 16), UDim2.new(0, 6, 0, 2), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 205), 10, Enum.TextXAlignment.Left, "FOV Size: 150", SliderContainer
+SliderLabel.Size, SliderLabel.Position, SliderLabel.BackgroundTransparency, SliderLabel.Font, SliderLabel.TextColor3, SliderLabel.TextSize, SliderLabel.TextXAlignment, SliderLabel.Text, SliderLabel.Parent = UDim2.new(1, -12, 0, 16), UDim2.new(0, 8, 0, 2), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 205), 10, Enum.TextXAlignment.Left, "FOV Size: 150", SliderContainer
 
 local SliderBarBg = Instance.new("Frame")
-SliderBarBg.Size, SliderBarBg.Position, SliderBarBg.BackgroundColor3, SliderBarBg.BorderSizePixel, SliderBarBg.Parent = UDim2.new(1, -14, 0, 6), UDim2.new(0, 7, 0, 22), Color3.fromRGB(30, 30, 38), 0, SliderContainer
+SliderBarBg.Size, SliderBarBg.Position, SliderBarBg.BackgroundColor3, SliderBarBg.BorderSizePixel, SliderBarBg.Parent = UDim2.new(1, -16, 0, 6), UDim2.new(0, 8, 0, 22), Color3.fromRGB(24, 24, 32), 0, SliderContainer
 Corner(SliderBarBg, 3)
 
 local SliderBarFill = Instance.new("Frame")
@@ -513,9 +491,9 @@ local SliderButton = Instance.new("TextButton")
 SliderButton.Size, SliderButton.BackgroundTransparency, SliderButton.Text, SliderButton.Parent = UDim2.new(1, 0, 1, 0), 1, "", SliderBarBg
 
 local ColorPaletteFrame = Instance.new("Frame")
-ColorPaletteFrame.Size, ColorPaletteFrame.BackgroundColor3, ColorPaletteFrame.BorderSizePixel, ColorPaletteFrame.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(16, 16, 20), 0, FOVSubOptionsContainer
-Corner(ColorPaletteFrame, 6)
-Stroke(ColorPaletteFrame, 1, 0.7)
+ColorPaletteFrame.Size, ColorPaletteFrame.BackgroundColor3, ColorPaletteFrame.BorderSizePixel, ColorPaletteFrame.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), 0, FOVSubOptionsContainer
+Corner(ColorPaletteFrame, 8)
+Stroke(ColorPaletteFrame, 1, 0.6).Color = Color3.fromRGB(45, 45, 60)
 
 local PaletteLayout = Instance.new("UIListLayout")
 PaletteLayout.FillDirection, PaletteLayout.HorizontalAlignment, PaletteLayout.SortOrder, PaletteLayout.Padding, PaletteLayout.Parent = Enum.FillDirection.Horizontal, Enum.HorizontalAlignment.Center, Enum.SortOrder.LayoutOrder, UDim.new(0, 6), ColorPaletteFrame
@@ -530,7 +508,7 @@ end
 
 createToggle(mainContent, "FOV", function(state)
 	FOFCircle.Visible = state
-	Tween(FOVSubOptionsContainer, 0.25, {Size = UDim2.new(1, 0, 0, state and 68 or 0)})
+	Tween(FOVSubOptionsContainer, 0.25, {Size = UDim2.new(1, 0, 0, state and 70 or 0)})
 	Tween(mainContent, 0.25, {CanvasSize = UDim2.new(0, 0, 0, state and 300 or 190)})
 end)
 
@@ -720,7 +698,7 @@ local HubTitle = Instance.new("TextLabel")
 HubTitle.Size, HubTitle.BackgroundTransparency, HubTitle.Font, HubTitle.TextColor3, HubTitle.TextSize, HubTitle.TextXAlignment, HubTitle.Text, HubTitle.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Player Teleport Matrix:", hubContent
 
 local PlayerScroll = Instance.new("ScrollingFrame")
-PlayerScroll.Size, PlayerScroll.BackgroundColor3, PlayerScroll.BorderSizePixel, PlayerScroll.ScrollBarThickness, PlayerScroll.Parent = UDim2.new(1, 0, 0, 85), Color3.fromRGB(16, 16, 20), 0, 2, hubContent
+PlayerScroll.Size, PlayerScroll.BackgroundColor3, PlayerScroll.BorderSizePixel, PlayerScroll.ScrollBarThickness, PlayerScroll.Parent = UDim2.new(1, 0, 0, 85), Color3.fromRGB(16, 16, 22), 0, 2, hubContent
 Corner(PlayerScroll, 6)
 Stroke(PlayerScroll, 1, 0.7)
 
@@ -732,7 +710,7 @@ local function refreshPlayerList()
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= LocalPlayer then
 			local pBtn = Instance.new("TextButton")
-			pBtn.Size, pBtn.BackgroundColor3, pBtn.Font, pBtn.TextColor3, pBtn.TextSize, pBtn.Text, pBtn.TextXAlignment, pBtn.Parent = UDim2.new(1, -4, 0, 26), Color3.fromRGB(24, 24, 30), Enum.Font.GothamMedium, Color3.fromRGB(240, 240, 245), 10, "  Warp to Target: " .. player.Name, Enum.TextXAlignment.Left, PlayerScroll
+			pBtn.Size, pBtn.BackgroundColor3, pBtn.Font, pBtn.TextColor3, pBtn.TextSize, pBtn.Text, pBtn.TextXAlignment, pBtn.Parent = UDim2.new(1, -4, 0, 26), Color3.fromRGB(22, 22, 28), Enum.Font.GothamMedium, Color3.fromRGB(240, 240, 245), 10, "  Warp to Target: " .. player.Name, Enum.TextXAlignment.Left, PlayerScroll
 			Corner(pBtn, 4)
 			pBtn.MouseButton1Click:Connect(function()
 				PlaySound(SOUND_CLICK)
@@ -751,7 +729,7 @@ local TrollTitle = Instance.new("TextLabel")
 TrollTitle.Size, TrollTitle.Position, TrollTitle.BackgroundTransparency, TrollTitle.Font, TrollTitle.TextColor3, TrollTitle.TextSize, TrollTitle.TextXAlignment, TrollTitle.Text, TrollTitle.Parent = UDim2.new(1, 0, 0, 18), UDim2.new(0, 0, 0, 95), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Player Troll & Combat Matrix:", hubContent
 
 local TrollScroll = Instance.new("ScrollingFrame")
-TrollScroll.Size, TrollScroll.Position, TrollScroll.BackgroundColor3, TrollScroll.BorderSizePixel, TrollScroll.ScrollBarThickness, TrollScroll.Parent = UDim2.new(1, 0, 0, 85), UDim2.new(0, 0, 0, 116), Color3.fromRGB(16, 16, 20), 0, 2, hubContent
+TrollScroll.Size, TrollScroll.Position, TrollScroll.BackgroundColor3, TrollScroll.BorderSizePixel, TrollScroll.ScrollBarThickness, TrollScroll.Parent = UDim2.new(1, 0, 0, 85), UDim2.new(0, 0, 0, 116), Color3.fromRGB(16, 16, 22), 0, 2, hubContent
 Corner(TrollScroll, 6)
 Stroke(TrollScroll, 1, 0.7)
 
@@ -792,7 +770,7 @@ local AdminTitle = Instance.new("TextLabel")
 AdminTitle.Size, AdminTitle.Position, AdminTitle.BackgroundTransparency, AdminTitle.Font, AdminTitle.TextColor3, AdminTitle.TextSize, AdminTitle.TextXAlignment, AdminTitle.Text, AdminTitle.Parent = UDim2.new(1, 0, 0, 18), UDim2.new(0, 0, 0, 206), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Velocity Overdrive:", hubContent
 
 local SpeedBtn = Instance.new("TextButton")
-SpeedBtn.Size, SpeedBtn.Position, SpeedBtn.BackgroundColor3, SpeedBtn.Font, SpeedBtn.TextColor3, SpeedBtn.TextSize, SpeedBtn.Text, SpeedBtn.Parent = UDim2.new(1, 0, 0, 28), UDim2.new(0, 0, 0, 227), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Hyper Velocity (Boost 32)", hubContent
+SpeedBtn.Size, SpeedBtn.Position, SpeedBtn.BackgroundColor3, SpeedBtn.Font, SpeedBtn.TextColor3, SpeedBtn.TextSize, SpeedBtn.Text, SpeedBtn.Parent = UDim2.new(1, 0, 0, 28), UDim2.new(0, 0, 0, 227), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Hyper Velocity (Boost 32)", hubContent
 Corner(SpeedBtn, 6)
 Stroke(SpeedBtn, 1, 0.7)
 
@@ -803,7 +781,7 @@ SpeedBtn.MouseButton1Click:Connect(function()
 	local char = LocalPlayer.Character
 	if char and char:FindFirstChildOfClass("Humanoid") then
 		char.Humanoid.WalkSpeed = speedState and 32 or 16
-		SpeedBtn.BackgroundColor3 = speedState and Color3.fromRGB(255, 105, 180) or Color3.fromRGB(16, 16, 20)
+		SpeedBtn.BackgroundColor3 = speedState and Color3.fromRGB(255, 105, 180) or Color3.fromRGB(16, 16, 22)
 		ShowNotification("Velocity", speedState and "Speed Boosted to 32" or "Speed Normal", Color3.fromRGB(255, 105, 180))
 	end
 end)
@@ -815,7 +793,7 @@ local Cat1Title = Instance.new("TextLabel")
 Cat1Title.Size, Cat1Title.BackgroundTransparency, Cat1Title.Font, Cat1Title.TextColor3, Cat1Title.TextSize, Cat1Title.TextXAlignment, Cat1Title.Text, Cat1Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Combat & Utility Tools:", invContent
 
 local GunToolBtn = Instance.new("TextButton")
-GunToolBtn.Size, GunToolBtn.BackgroundColor3, GunToolBtn.Font, GunToolBtn.TextColor3, GunToolBtn.TextSize, GunToolBtn.Text, GunToolBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Weapon (Gun Tool Real)", invContent
+GunToolBtn.Size, GunToolBtn.BackgroundColor3, GunToolBtn.Font, GunToolBtn.TextColor3, GunToolBtn.TextSize, GunToolBtn.Text, GunToolBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Weapon (Gun Tool Real)", invContent
 Corner(GunToolBtn, 6)
 Stroke(GunToolBtn, 1, 0.7)
 
@@ -853,7 +831,7 @@ GunToolBtn.MouseButton1Click:Connect(function()
 end)
 
 local TpToolBtn = Instance.new("TextButton")
-TpToolBtn.Size, TpToolBtn.BackgroundColor3, TpToolBtn.Font, TpToolBtn.TextColor3, TpToolBtn.TextSize, TpToolBtn.Text, TpToolBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn TP Click Tool", invContent
+TpToolBtn.Size, TpToolBtn.BackgroundColor3, TpToolBtn.Font, TpToolBtn.TextColor3, TpToolBtn.TextSize, TpToolBtn.Text, TpToolBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn TP Click Tool", invContent
 Corner(TpToolBtn, 6)
 Stroke(TpToolBtn, 1, 0.7)
 
@@ -873,7 +851,7 @@ TpToolBtn.MouseButton1Click:Connect(function()
 		end)
 		ShowNotification("Inventory", "TP Tool Enabled", Color3.fromRGB(255, 105, 180))
 	else
-		TpToolBtn.BackgroundColor3 = Color3.fromRGB(16, 16, 20)
+		TpToolBtn.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
 		if backpack then for _, item in ipairs(backpack:GetChildren()) do if item.Name == "TP Click Tool" then item:Destroy() end end end
 		ShowNotification("Inventory", "TP Tool Disabled", Color3.fromRGB(150, 150, 155))
 	end
@@ -886,7 +864,7 @@ local Cat2Title = Instance.new("TextLabel")
 Cat2Title.Size, Cat2Title.BackgroundTransparency, Cat2Title.Font, Cat2Title.TextColor3, Cat2Title.TextSize, Cat2Title.TextXAlignment, Cat2Title.Text, Cat2Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Build & Survival Items:", invContent
 
 local BToolsBtn = Instance.new("TextButton")
-BToolsBtn.Size, BToolsBtn.BackgroundColor3, BToolsBtn.Font, BToolsBtn.TextColor3, BToolsBtn.TextSize, BToolsBtn.Text, BToolsBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Building Tools (Btools)", invContent
+BToolsBtn.Size, BToolsBtn.BackgroundColor3, BToolsBtn.Font, BToolsBtn.TextColor3, BToolsBtn.TextSize, BToolsBtn.Text, BToolsBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Building Tools (Btools)", invContent
 Corner(BToolsBtn, 6)
 Stroke(BToolsBtn, 1, 0.7)
 BToolsBtn.MouseButton1Click:Connect(function()
@@ -902,7 +880,7 @@ BToolsBtn.MouseButton1Click:Connect(function()
 end)
 
 local HealthPackBtn = Instance.new("TextButton")
-HealthPackBtn.Size, HealthPackBtn.BackgroundColor3, HealthPackBtn.Font, HealthPackBtn.TextColor3, HealthPackBtn.TextSize, HealthPackBtn.Text, HealthPackBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Healing Burger (Max HP)", invContent
+HealthPackBtn.Size, HealthPackBtn.BackgroundColor3, HealthPackBtn.Font, HealthPackBtn.TextColor3, HealthPackBtn.TextSize, HealthPackBtn.Text, HealthPackBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Healing Burger (Max HP)", invContent
 Corner(HealthPackBtn, 6)
 Stroke(HealthPackBtn, 1, 0.7)
 HealthPackBtn.MouseButton1Click:Connect(function()
@@ -968,7 +946,7 @@ createToggle(settingsContent, "FPS & Ping Display", function(state)
 end)
 
 local RejoinBtn = Instance.new("TextButton")
-RejoinBtn.Size, RejoinBtn.BackgroundColor3, RejoinBtn.Font, RejoinBtn.Text, RejoinBtn.TextColor3, RejoinBtn.TextSize, RejoinBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), Enum.Font.GothamMedium, "Rejoin Server", Color3.fromRGB(220, 220, 225), 11, settingsContent
+RejoinBtn.Size, RejoinBtn.BackgroundColor3, RejoinBtn.Font, RejoinBtn.Text, RejoinBtn.TextColor3, RejoinBtn.TextSize, RejoinBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Rejoin Server", Color3.fromRGB(220, 220, 225), 11, settingsContent
 Corner(RejoinBtn, 6)
 Stroke(RejoinBtn, 1, 0.7)
 RejoinBtn.MouseButton1Click:Connect(function() PlaySound(SOUND_CLICK) pcall(function() TeleportService:Teleport(game.PlaceId, LocalPlayer) end) end)
@@ -977,7 +955,7 @@ local ThemeLabel = Instance.new("TextLabel")
 ThemeLabel.Size, ThemeLabel.BackgroundTransparency, ThemeLabel.Font, ThemeLabel.TextColor3, ThemeLabel.TextSize, ThemeLabel.TextXAlignment, ThemeLabel.Text, ThemeLabel.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(180, 180, 185), 10, Enum.TextXAlignment.Left, "  Border Theme:", settingsContent
 
 local ThemePalette = Instance.new("Frame")
-ThemePalette.Size, ThemePalette.BackgroundColor3, ThemePalette.BorderSizePixel, ThemePalette.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 20), 0, settingsContent
+ThemePalette.Size, ThemePalette.BackgroundColor3, ThemePalette.BorderSizePixel, ThemePalette.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), 0, settingsContent
 Corner(ThemePalette, 6)
 Stroke(ThemePalette, 1, 0.7)
 
@@ -997,7 +975,7 @@ for i, th in ipairs({{Name = "Pink", Color = Color3.fromRGB(255, 105, 180)}, {Na
 end
 
 local TransSliderContainer = Instance.new("Frame")
-TransSliderContainer.Size, TransSliderContainer.BackgroundColor3, TransSliderContainer.BorderSizePixel, TransSliderContainer.Parent = UDim2.new(1, 0, 0, 38), Color3.fromRGB(16, 16, 20), 0, settingsContent
+TransSliderContainer.Size, TransSliderContainer.BackgroundColor3, TransSliderContainer.BorderSizePixel, TransSliderContainer.Parent = UDim2.new(1, 0, 0, 38), Color3.fromRGB(16, 16, 22), 0, settingsContent
 Corner(TransSliderContainer, 6)
 Stroke(TransSliderContainer, 1, 0.7)
 
@@ -1005,7 +983,7 @@ local TransLabel = Instance.new("TextLabel")
 TransLabel.Size, TransLabel.Position, TransLabel.BackgroundTransparency, TransLabel.Font, TransLabel.TextColor3, TransLabel.TextSize, TransLabel.TextXAlignment, TransLabel.Text, TransLabel.Parent = UDim2.new(1, -12, 0, 16), UDim2.new(0, 6, 0, 2), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 205), 10, Enum.TextXAlignment.Left, "UI Transparency: 0%", TransSliderContainer
 
 local TransBarBg = Instance.new("Frame")
-TransBarBg.Size, TransBarBg.Position, TransBarBg.BackgroundColor3, TransBarBg.BorderSizePixel, TransBarBg.Parent = UDim2.new(1, -14, 0, 6), UDim2.new(0, 7, 0, 22), Color3.fromRGB(30, 30, 38), 0, TransSliderContainer
+TransBarBg.Size, TransBarBg.Position, TransBarBg.BackgroundColor3, TransBarBg.BorderSizePixel, TransBarBg.Parent = UDim2.new(1, -14, 0, 6), UDim2.new(0, 7, 0, 22), Color3.fromRGB(24, 24, 32), 0, TransSliderContainer
 Corner(TransBarBg, 3)
 
 local TransBarFill = Instance.new("Frame")
@@ -1036,7 +1014,7 @@ local aboutFrame = tabFrames["About Me"]
 aboutFrame.CanvasSize = UDim2.new(0, 0, 0, 180)
 
 local ProfileCard = Instance.new("Frame")
-ProfileCard.Size, ProfileCard.BackgroundColor3, ProfileCard.BorderSizePixel, ProfileCard.Parent = UDim2.new(1, -4, 0, 80), Color3.fromRGB(16, 16, 20), 0, aboutFrame
+ProfileCard.Size, ProfileCard.BackgroundColor3, ProfileCard.BorderSizePixel, ProfileCard.Parent = UDim2.new(1, -4, 0, 80), Color3.fromRGB(16, 16, 22), 0, aboutFrame
 Corner(ProfileCard, 8)
 Stroke(ProfileCard, 1, 0.7)
 
@@ -1049,7 +1027,7 @@ local UserInfoLabel = Instance.new("TextLabel")
 UserInfoLabel.Size, UserInfoLabel.Position, UserInfoLabel.BackgroundTransparency, UserInfoLabel.Font, UserInfoLabel.TextColor3, UserInfoLabel.TextSize, UserInfoLabel.TextXAlignment, UserInfoLabel.TextYAlignment, UserInfoLabel.Text, UserInfoLabel.Parent = UDim2.new(1, -75, 1, -8), UDim2.new(0, 72, 0, 4), 1, Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 10, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, string.format("Display: %s\nUser: @%s\nID: %d\nAccount Age: %d días", LocalPlayer.DisplayName, LocalPlayer.Name, LocalPlayer.UserId, LocalPlayer.AccountAge), ProfileCard
 
 local GameCard = Instance.new("Frame")
-GameCard.Size, GameCard.Position, GameCard.BackgroundColor3, GameCard.BorderSizePixel, GameCard.Parent = UDim2.new(1, -4, 0, 80), UDim2.new(0, 0, 0, 88), Color3.fromRGB(16, 16, 20), 0, aboutFrame
+GameCard.Size, GameCard.Position, GameCard.BackgroundColor3, GameCard.BorderSizePixel, GameCard.Parent = UDim2.new(1, -4, 0, 80), UDim2.new(0, 0, 0, 88), Color3.fromRGB(16, 16, 22), 0, aboutFrame
 Corner(GameCard, 8)
 Stroke(GameCard, 1, 0.7)
 
@@ -1066,7 +1044,7 @@ local creditsFrame = tabFrames["Credits"]
 creditsFrame.CanvasSize = UDim2.new(0, 0, 0, 180)
 
 local CreditCard1 = Instance.new("Frame")
-CreditCard1.Size, CreditCard1.BackgroundColor3, CreditCard1.BorderSizePixel, CreditCard1.Parent = UDim2.new(1, -4, 0, 80), Color3.fromRGB(16, 16, 20), 0, creditsFrame
+CreditCard1.Size, CreditCard1.BackgroundColor3, CreditCard1.BorderSizePixel, CreditCard1.Parent = UDim2.new(1, -4, 0, 80), Color3.fromRGB(16, 16, 22), 0, creditsFrame
 Corner(CreditCard1, 8)
 Stroke(CreditCard1, 1, 0.7)
 
@@ -1083,7 +1061,7 @@ local CreatorMsgLabel = Instance.new("TextLabel")
 CreatorMsgLabel.Size, CreatorMsgLabel.Position, CreatorMsgLabel.BackgroundTransparency, CreatorMsgLabel.Font, CreatorMsgLabel.TextColor3, CreatorMsgLabel.TextSize, CreatorMsgLabel.TextXAlignment, CreatorMsgLabel.TextYAlignment, CreatorMsgLabel.TextWrapped, CreatorMsgLabel.RichText, CreatorMsgLabel.Text, CreatorMsgLabel.Parent = UDim2.new(1, -75, 1, -8), UDim2.new(0, 72, 0, 6), 1, Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 10, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, true, true, "Creado con mucho amor por <font color='#FF3366'><b>lxFamousSxn</b></font>\n\nentren al servidor de mi juego", CreditCard1
 
 local CreditCard2 = Instance.new("Frame")
-CreditCard2.Size, CreditCard2.Position, CreditCard2.BackgroundColor3, CreditCard2.BorderSizePixel, CreditCard2.Parent = UDim2.new(1, -4, 0, 80), UDim2.new(0, 0, 0, 88), Color3.fromRGB(16, 16, 20), 0, creditsFrame
+CreditCard2.Size, CreditCard2.Position, CreditCard2.BackgroundColor3, CreditCard2.BorderSizePixel, CreditCard2.Parent = UDim2.new(1, -4, 0, 80), UDim2.new(0, 0, 0, 88), Color3.fromRGB(16, 16, 22), 0, creditsFrame
 Corner(CreditCard2, 8)
 Stroke(CreditCard2, 1, 0.7)
 
