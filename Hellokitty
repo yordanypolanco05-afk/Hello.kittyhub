@@ -56,7 +56,7 @@ local function Stroke(object: Instance, thickness: number?, transparency: number
 	return stroke
 end
 
--- Sistema de Notificaciones Compactas (Toast Optimizadas)
+-- Sistema de Notificaciones Compactas (Toast Profesional)
 local NotificationGui = Instance.new("ScreenGui")
 NotificationGui.Name, NotificationGui.ResetOnSpawn, NotificationGui.Parent = "HelloKittyHub_Notifications", false, PlayerGui
 
@@ -222,7 +222,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
 	task.delay(0.2, function() Main.Visible, Main.Size, Main.BackgroundTransparency, MinimizedGui.Enabled = false, UDim2.fromOffset(frameWidth, frameHeight), 0, true end)
 end)
 
--- Key System Mejorado (Fondo Negro/Gris con Textura Gradiente Dinámica)
+-- Key System Rediseñado (Fondo Negro / Gris Profundo con Textura Gradiente Dinámica)
 local KeyFrame = Instance.new("Frame")
 KeyFrame.Name, KeyFrame.AnchorPoint, KeyFrame.Position, KeyFrame.Size = "KeyFrame", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(keyFrameWidth, keyFrameHeight)
 KeyFrame.BackgroundColor3, KeyFrame.BorderSizePixel, KeyFrame.Active, KeyFrame.Draggable, KeyFrame.ClipsDescendants, KeyFrame.Parent = Color3.fromRGB(10, 10, 14), 0, true, true, true, ScreenGui
@@ -243,7 +243,6 @@ task.spawn(function()
 	end
 end)
 
--- Fondo Oscuro Texturizado Profesional (Negro y Gris Profundo)
 local KeyDarkBg = Instance.new("Frame")
 KeyDarkBg.Size, KeyDarkBg.BackgroundColor3, KeyDarkBg.BackgroundTransparency, KeyDarkBg.BorderSizePixel, KeyDarkBg.Parent = UDim2.fromScale(1, 1), Color3.fromRGB(15, 15, 20), 0.2, 0, KeyFrame
 
@@ -371,7 +370,7 @@ if tabButtons["Main"] then
 	tabFrames["Main"].Visible = true
 end
 
--- NUEVO DISEÑO MODULAR 3D PARA OPCIONES Y TOGGLES
+-- DISEÑO MODULAR 3D PROFESIONAL PARA OPCIONES Y TOGGLES
 local function createToggle(parent: Instance, title: string, callback: (boolean) -> ())
 	local ToggleFrame = Instance.new("Frame")
 	ToggleFrame.Size, ToggleFrame.BackgroundColor3, ToggleFrame.BorderSizePixel, ToggleFrame.Parent = UDim2.new(1, 0, 0, 32), Color3.fromRGB(16, 16, 22), 0, parent
@@ -429,6 +428,7 @@ task.spawn(function()
 	end
 end)
 
+-- Sistema Aimlock Universal (Redirecciona Cámara, Personaje y Clics de Armas)
 RunService.RenderStepped:Connect(function()
 	if isMobile then FOFCircle.Position = UDim2.fromScale(0.5, 0.5) else local mousePos = UserInputService:GetMouseLocation() FOFCircle.Position = UDim2.new(0, mousePos.X, 0, mousePos.Y) end
 	if not aimlockActive or aimlockPaused then activeAimTarget = nil return end
@@ -792,6 +792,7 @@ invContent.CanvasSize = UDim2.new(0, 0, 0, 250)
 local Cat1Title = Instance.new("TextLabel")
 Cat1Title.Size, Cat1Title.BackgroundTransparency, Cat1Title.Font, Cat1Title.TextColor3, Cat1Title.TextSize, Cat1Title.TextXAlignment, Cat1Title.Text, Cat1Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Combat & Utility Tools:", invContent
 
+-- Gun Tool Real Sincronizada con Aimlock
 local GunToolBtn = Instance.new("TextButton")
 GunToolBtn.Size, GunToolBtn.BackgroundColor3, GunToolBtn.Font, GunToolBtn.TextColor3, GunToolBtn.TextSize, GunToolBtn.Text, GunToolBtn.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 11, "Spawn Weapon (Gun Tool Real)", invContent
 Corner(GunToolBtn, 6)
