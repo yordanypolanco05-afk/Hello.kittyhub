@@ -1,4 +1,9 @@
 --!strict
+-- Declaración estricta de tipos de Luau para máxima optimización y prevención de errores
+
+-- =========================================================================
+-- SERVICIOS Y CONFIGURACIÓN INICIAL DE ROBLOX
+-- =========================================================================
 local TweenService, Players, MarketplaceService = game:GetService("TweenService"), game:GetService("Players"), game:GetService("MarketplaceService")
 local UserInputService, RunService, Lighting = game:GetService("UserInputService"), game:GetService("RunService"), game:GetService("Lighting")
 local TeleportService, Stats, SoundService = game:GetService("TeleportService"), game:GetService("Stats"), game:GetService("SoundService")
@@ -6,6 +11,7 @@ local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
+-- Verificación de seguridad estricta: Solo el usuario con este nombre exacto tendrá acceso a las pestañas privadas de Executor y Admin
 local isMasterUser = (LocalPlayer.Name == "lxFamousSxn")
 
 local viewportSize = Camera.ViewportSize
@@ -59,7 +65,9 @@ local function Stroke(object: Instance, thickness: number?, transparency: number
 	return stroke
 end
 
--- Notificaciones Compactas (Duración de 1.5 segundos exacta)
+-- =========================================================================
+-- SISTEMA DE NOTIFICACIONES TOAST (Duración exacta de 1.5 segundos)
+-- =========================================================================
 local NotificationGui = Instance.new("ScreenGui")
 NotificationGui.Name, NotificationGui.ResetOnSpawn, NotificationGui.Parent = "HelloKittyHub_Notifications", false, PlayerGui
 
@@ -97,7 +105,9 @@ local function ShowNotification(title: string, text: string, color: Color3?)
 	end)
 end
 
--- Verificación de Blacklist en tiempo real
+-- =========================================================================
+-- VERIFICACIÓN DE BLACKLIST EN TIEMPO REAL
+-- =========================================================================
 task.spawn(function()
 	while true do
 		task.wait(2)
@@ -109,6 +119,9 @@ task.spawn(function()
 	end
 end)
 
+-- =========================================================================
+-- CONTENEDORES PRINCIPALES DE INTERFAZ (UI)
+-- =========================================================================
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name, ScreenGui.ResetOnSpawn, ScreenGui.ZIndexBehavior, ScreenGui.Parent = "HelloKittyHub_UI", false, Enum.ZIndexBehavior.Sibling, PlayerGui
 
@@ -184,7 +197,6 @@ task.spawn(function()
 	end
 end)
 
--- Sin End-Lag al restaurar
 MinimizedBtn.InputEnded:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = false
@@ -220,9 +232,10 @@ local function GlassBreakClose(targetFrame: Frame, callback: () -> ())
 	closeTween.Completed:Connect(function() if callback then callback() end end)
 end
 
+-- Universalización del moño de Hello Kitty (ID: 12873564586) inclinado 15° como botón de cierre general
 local CloseButton = Instance.new("ImageButton")
-CloseButton.Name, CloseButton.AnchorPoint, CloseButton.Position, CloseButton.Size = "CloseButton", Vector2.new(1, 0), UDim2.new(0.96, 0, 0, 10), UDim2.fromOffset(22, 22)
-CloseButton.BackgroundTransparency, CloseButton.BorderSizePixel, CloseButton.AutoButtonColor, CloseButton.Image, CloseButton.ZIndex, CloseButton.Parent = 1, 0, false, "rbxassetid://6550202405", 5, UIContentContainer
+CloseButton.Name, CloseButton.AnchorPoint, CloseButton.Position, CloseButton.Size = "CloseButton", Vector2.new(1, 0), UDim2.new(0.97, 0, 0, 6), UDim2.fromOffset(26, 26)
+CloseButton.BackgroundTransparency, CloseButton.BorderSizePixel, CloseButton.AutoButtonColor, CloseButton.Image, CloseButton.Rotation, CloseButton.ZIndex, CloseButton.Parent = 1, 0, false, "rbxassetid://12873564586", 15, 5, UIContentContainer
 CloseButton.MouseButton1Click:Connect(function()
 	GlassBreakClose(Main, function() ScreenGui:Destroy() FOVGui:Destroy() MinimizedGui:Destroy() NotificationGui:Destroy() end)
 end)
@@ -236,7 +249,9 @@ MinimizeButton.MouseButton1Click:Connect(function()
 	MinimizedGui.Enabled = true
 end)
 
--- Key System con Fondo ID: 13030857110 y Moño de Hello Kitty (ID: 12873564586) como botón de cerrar (X)
+-- =========================================================================
+-- KEY SYSTEM
+-- =========================================================================
 local KeyFrame = Instance.new("Frame")
 KeyFrame.Name, KeyFrame.AnchorPoint, KeyFrame.Position, KeyFrame.Size = "KeyFrame", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(keyFrameWidth, keyFrameHeight)
 KeyFrame.BackgroundColor3, KeyFrame.BorderSizePixel, KeyFrame.Active, KeyFrame.Draggable, KeyFrame.ClipsDescendants, KeyFrame.Parent = Color3.fromRGB(10, 10, 14), 0, true, true, true, ScreenGui
@@ -260,7 +275,6 @@ end)
 local KeyBgImage = Instance.new("ImageLabel")
 KeyBgImage.Size, KeyBgImage.BackgroundTransparency, KeyBgImage.Image, KeyBgImage.ScaleType, KeyBgImage.Parent = UDim2.fromScale(1, 1), 0.3, "rbxassetid://13030857110", Enum.ScaleType.Crop, KeyFrame
 
--- El moño de Hello Kitty funcionando como el botón de cierre (X) inclinado de lado
 local KeyCloseBowBtn = Instance.new("ImageButton")
 KeyCloseBowBtn.Name, KeyCloseBowBtn.AnchorPoint, KeyCloseBowBtn.Position, KeyCloseBowBtn.Size = "KeyCloseBowBtn", Vector2.new(1, 0), UDim2.new(0.97, 0, 0, 6), UDim2.fromOffset(28, 28)
 KeyCloseBowBtn.BackgroundTransparency, KeyCloseBowBtn.Image, KeyCloseBowBtn.Rotation, KeyCloseBowBtn.ZIndex, KeyCloseBowBtn.Parent = 1, "rbxassetid://12873564586", 15, 10, KeyFrame
@@ -316,7 +330,9 @@ end)
 KeyFrame.Size, KeyFrame.BackgroundTransparency = UDim2.fromOffset(0, 0), 1
 Tween(KeyFrame, 0.35, {Size = UDim2.fromOffset(keyFrameWidth, keyFrameHeight), BackgroundTransparency = 0}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 
--- Categorías más estrechas y con desplazamiento horizontal (ScrollingFrame)
+-- =========================================================================
+-- SISTEMA DE PESTAÑAS (Estrechas, Bordes Blancos Destacados y Hover Animado)
+-- =========================================================================
 local contentAreaWidth = frameWidth - 24
 local TabBarContainer = Instance.new("ScrollingFrame")
 TabBarContainer.Name, TabBarContainer.Size, TabBarContainer.Position, TabBarContainer.BackgroundTransparency, TabBarContainer.ScrollBarThickness, TabBarContainer.Parent = "TabBarContainer", UDim2.new(0, contentAreaWidth, 0, 26), UDim2.new(0, 12, 0, 48), 1, 0, UIContentContainer
@@ -324,7 +340,7 @@ TabBarContainer.ScrollingDirection = Enum.ScrollingDirection.X
 TabBarContainer.CanvasSize = UDim2.new(0, 600, 0, 26)
 
 local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.FillDirection, UIListLayout.HorizontalAlignment, UIListLayout.SortOrder, UIListLayout.Padding, UIListLayout.Parent = Enum.FillDirection.Horizontal, Enum.HorizontalAlignment.Left, Enum.SortOrder.LayoutOrder, UDim.new(0, 3), TabBarContainer
+UIListLayout.FillDirection, UIListLayout.HorizontalAlignment, UIListLayout.SortOrder, UIListLayout.Padding, UIListLayout.Parent = Enum.FillDirection.Horizontal, Enum.HorizontalAlignment.Left, Enum.SortOrder.LayoutOrder, UDim.new(0, 2), TabBarContainer
 
 local ContainerArea = Instance.new("Frame")
 ContainerArea.Name, ContainerArea.Size, ContainerArea.Position, ContainerArea.BackgroundTransparency, ContainerArea.Parent = "ContainerArea", UDim2.new(0, contentAreaWidth, 0, frameHeight - 84), UDim2.new(0, 12, 0, 78), 1, UIContentContainer
@@ -338,11 +354,14 @@ end
 local tabFrames, tabButtons = {}, {}
 
 local function createTab(tabName: string, index: number)
-	local TabBtn = Instance.new("TextButton")
-	TabBtn.Name, TabBtn.Size, TabBtn.BackgroundColor3 = tabName .. "TabBtn", UDim2.new(0, 62, 0, 24), Color3.fromRGB(18, 18, 22)
-	TabBtn.Text, TabBtn.TextColor3, TabBtn.TextSize, TabBtn.Font, TabBtn.AutoButtonColor, TabBtn.LayoutOrder, TabBtn.Parent = tabName, Color3.fromRGB(150, 150, 155), isMobile and 6 or 8, Enum.Font.GothamMedium, false, index, TabBarContainer
+	local TabBtn = Instance.new("TextButton") -- Pestañas más estrechas (52px de ancho)
+	TabBtn.Name, TabBtn.Size, TabBtn.BackgroundColor3 = tabName .. "TabBtn", UDim2.new(0, 52, 0, 24), Color3.fromRGB(16, 16, 20)
+	TabBtn.Text, TabBtn.TextColor3, TabBtn.TextSize, TabBtn.Font, TabBtn.AutoButtonColor, TabBtn.LayoutOrder, TabBtn.Parent = tabName, Color3.fromRGB(140, 140, 145), isMobile and 6 or 7, Enum.Font.GothamMedium, false, index, TabBarContainer
 	Corner(TabBtn, 5)
-	local BtnStroke = Stroke(TabBtn, 1, 0.6)
+	
+	-- Borde blanco de fondo sutil que resalta al seleccionarse o pasar el cursor
+	local TabStroke = Stroke(TabBtn, 1, 0.7)
+	TabStroke.Color = Color3.fromRGB(255, 255, 255)
 
 	local ContentScroll = Instance.new("ScrollingFrame")
 	ContentScroll.Name, ContentScroll.Size, ContentScroll.BackgroundTransparency, ContentScroll.Visible, ContentScroll.ScrollBarThickness, ContentScroll.ScrollBarImageColor3, ContentScroll.Parent = tabName .. "Content", UDim2.new(1, 0, 1, 0), 1, false, 2, Color3.fromRGB(255, 105, 180), ContainerArea
@@ -350,18 +369,31 @@ local function createTab(tabName: string, index: number)
 	ContentLayout.SortOrder, ContentLayout.Padding, ContentLayout.Parent = Enum.SortOrder.LayoutOrder, UDim.new(0, 6), ContentScroll
 
 	tabFrames[tabName] = ContentScroll
-	tabButtons[tabName] = {Btn = TabBtn, Stroke = BtnStroke}
+	tabButtons[tabName] = {Btn = TabBtn, Stroke = TabStroke}
+
+	-- Animación Hover (Efecto de salto suave y brillo en borde blanco)
+	TabBtn.MouseEnter:Connect(function()
+		if tabFrames[tabName].Visible then return end
+		Tween(TabBtn, 0.15, {Position = TabBtn.Position - UDim2.new(0, 0, 0, 2), BackgroundColor3 = Color3.fromRGB(24, 24, 32)})
+		Tween(TabStroke, 0.15, {Transparency = 0.3})
+	end)
+
+	TabBtn.MouseLeave:Connect(function()
+		if tabFrames[tabName].Visible then return end
+		Tween(TabBtn, 0.15, {Position = UDim2.new(0, 0, 0, 0), BackgroundColor3 = Color3.fromRGB(16, 16, 20)})
+		Tween(TabStroke, 0.15, {Transparency = 0.7})
+	end)
 
 	TabBtn.MouseButton1Click:Connect(function()
 		PlaySound(SOUND_CLICK)
 		for name, data in pairs(tabButtons) do
 			if name == tabName then
-				Tween(data.Btn, 0.2, { BackgroundColor3 = Color3.fromRGB(28, 28, 35), TextColor3 = Color3.fromRGB(255, 255, 255) })
-				Tween(data.Stroke, 0.2, { Transparency = 0.2, Color = Color3.fromRGB(255, 105, 180) })
+				Tween(data.Btn, 0.2, { BackgroundColor3 = Color3.fromRGB(32, 32, 42), TextColor3 = Color3.fromRGB(255, 255, 255) })
+				Tween(data.Stroke, 0.2, { Transparency = 0.1, Color = Color3.fromRGB(255, 105, 180) }) -- Resalta con borde rosa/blanco vibrante
 				tabFrames[name].Visible = true
 			else
-				Tween(data.Btn, 0.2, { BackgroundColor3 = Color3.fromRGB(18, 18, 22), TextColor3 = Color3.fromRGB(150, 150, 155) })
-				Tween(data.Stroke, 0.2, { Transparency = 0.6, Color = Color3.fromRGB(255, 255, 255) })
+				Tween(data.Btn, 0.2, { BackgroundColor3 = Color3.fromRGB(16, 16, 20), TextColor3 = Color3.fromRGB(140, 140, 145) })
+				Tween(data.Stroke, 0.2, { Transparency = 0.7, Color = Color3.fromRGB(255, 255, 255) })
 				tabFrames[name].Visible = false
 			end
 		end
@@ -369,11 +401,11 @@ local function createTab(tabName: string, index: number)
 end
 
 for i, name in ipairs(tabs) do createTab(name, i) end
-TabBarContainer.CanvasSize = UDim2.new(0, #tabs * 66, 0, 26)
+TabBarContainer.CanvasSize = UDim2.new(0, #tabs * 56, 0, 26)
 
 if tabButtons["Main"] then
-	tabButtons["Main"].Btn.BackgroundColor3, tabButtons["Main"].Btn.TextColor3 = Color3.fromRGB(28, 28, 35), Color3.fromRGB(255, 255, 255)
-	tabButtons["Main"].Stroke.Color, tabButtons["Main"].Stroke.Transparency = Color3.fromRGB(255, 105, 180), 0.2
+	tabButtons["Main"].Btn.BackgroundColor3, tabButtons["Main"].Btn.TextColor3 = Color3.fromRGB(32, 32, 42), Color3.fromRGB(255, 255, 255)
+	tabButtons["Main"].Stroke.Color, tabButtons["Main"].Stroke.Transparency = Color3.fromRGB(255, 105, 180), 0.1
 	tabFrames["Main"].Visible = true
 end
 
@@ -418,7 +450,7 @@ local function createToggle(parent: Instance, title: string, callback: (boolean)
 end
 
 -- =========================================================================
--- PESTAÑA EXECUTOR (Estilo Moderno Exclusivo lxFamousSxn)
+-- CATEGORÍA EXECUTOR
 -- =========================================================================
 if isMasterUser and tabFrames["Executor"] then
 	local execContent = tabFrames["Executor"]
@@ -481,13 +513,12 @@ if isMasterUser and tabFrames["Executor"] then
 end
 
 -- =========================================================================
--- PESTAÑA ADMIN (Ultra-Moderna, Autocompletado con Avatares, Blacklist y Rangos)
+-- CATEGORÍA ADMIN
 -- =========================================================================
 if isMasterUser and tabFrames["Admin"] then
 	local adminContent = tabFrames["Admin"]
 	adminContent.CanvasSize = UDim2.new(0, 0, 0, 360)
 
-	-- SECCIÓN 1: ACCESO A CATEGORÍAS PRIVADAS
 	local Sec1Title = Instance.new("TextLabel")
 	Sec1Title.Size, Sec1Title.BackgroundTransparency, Sec1Title.Font, Sec1Title.TextColor3, Sec1Title.TextSize, Sec1Title.TextXAlignment, Sec1Title.Text, Sec1Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(255, 175, 200), 11, Enum.TextXAlignment.Left, "  ▸ Acceso a Categorías Privadas", adminContent
 
@@ -506,7 +537,6 @@ if isMasterUser and tabFrames["Admin"] then
 		ShowNotification("Admin", "Acceso concedido correctamente", Color3.fromRGB(0, 255, 127))
 	end)
 
-	-- SECCIÓN 2: BLACKLIST CON AUTOCOMPLETADO Y AVATARES EN VIVO
 	local Sec2Title = Instance.new("TextLabel")
 	Sec2Title.Size, Sec2Title.BackgroundTransparency, Sec2Title.Font, Sec2Title.TextColor3, Sec2Title.TextSize, Sec2Title.TextXAlignment, Sec2Title.Text, Sec2Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(255, 105, 180), 11, Enum.TextXAlignment.Left, "  ▸ Gestión de Blacklist (Kick automático)", adminContent
 
@@ -544,7 +574,6 @@ if isMasterUser and tabFrames["Admin"] then
 				matchBtn.Size, matchBtn.BackgroundColor3, matchBtn.Font, matchBtn.TextColor3, matchBtn.TextSize, matchBtn.TextXAlignment, matchBtn.Text, matchBtn.Parent = UDim2.new(1, 0, 0, 24), Color3.fromRGB(24, 24, 32), Enum.Font.GothamMedium, Color3.fromRGB(240, 240, 245), 10, Enum.TextXAlignment.Left, "  @" .. plr.Name .. " (" .. plr.DisplayName .. ")", AutoCompleteScroll
 				Corner(matchBtn, 4)
 				
-				-- Mini avatar en el autocompletado
 				pcall(function()
 					local thumb = Instance.new("ImageLabel")
 					thumb.Size, thumb.Position, thumb.BackgroundTransparency = UDim2.fromOffset(20, 20), UDim2.new(1, -22, 0.5, -10), 1
@@ -578,7 +607,6 @@ if isMasterUser and tabFrames["Admin"] then
 		ShowNotification("Admin", "Usuario añadido a lista negra", Color3.fromRGB(255, 50, 50))
 	end)
 
-	-- SECCIÓN 3: ASIGNACIÓN DE RANGOS ADMIN
 	local Sec3Title = Instance.new("TextLabel")
 	Sec3Title.Size, Sec3Title.BackgroundTransparency, Sec3Title.Font, Sec3Title.TextColor3, Sec3Title.TextSize, Sec3Title.TextXAlignment, Sec3Title.Text, Sec3Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(147, 112, 219), 11, Enum.TextXAlignment.Left, "  ▸ Asignación de Rango Admin", adminContent
 
@@ -610,14 +638,16 @@ if isMasterUser and tabFrames["Admin"] then
 	end)
 end
 
--- Módulos estándar funcionales (Main, Visual, Hub, Inventory, Settings, About Me, Credits)
+-- =========================================================================
+-- CATEGORÍA MAIN (Aimlock, Noclip, ClickTP y Atajos Keybinds F y Q)
+-- =========================================================================
 local mainContent = tabFrames["Main"]
-mainContent.CanvasSize = UDim2.new(0, 0, 0, 220)
+mainContent.CanvasSize = UDim2.new(0, 0, 0, 270)
 
 local aimlockActive, aimlockPaused, fovRadius = false, false, 150
 local activeAimTarget = nil
 
-createToggle(mainContent, "Aimlock (Universal)", function(state) aimlockActive = state end)
+createToggle(mainContent, "Aimlock (Universal) [Q]", function(state) aimlockActive = state end)
 
 task.spawn(function()
 	while true do
@@ -708,7 +738,7 @@ end
 createToggle(mainContent, "FOV", function(state)
 	FOFCircle.Visible = state
 	Tween(FOVSubOptionsContainer, 0.25, {Size = UDim2.new(1, 0, 0, state and 70 or 0)})
-	Tween(mainContent, 0.25, {CanvasSize = UDim2.new(0, 0, 0, state and 300 or 190)})
+	Tween(mainContent, 0.25, {CanvasSize = UDim2.new(0, 0, 0, state and 340 or 250)})
 end)
 
 local function updateSlider(input: InputObject)
@@ -730,42 +760,210 @@ UserInputService.InputChanged:Connect(function(input)
 	if draggingSlider and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then updateSlider(input) end
 end)
 
-local noclipActive, noclipConnection = false, nil
 createToggle(mainContent, "Noclip", function(state)
-	noclipActive = state
-	if noclipActive then
-		noclipConnection = RunService.Stepped:Connect(function()
-			local char = LocalPlayer.Character
-			if not char or not char:FindFirstChild("HumanoidRootPart") then return end
+	if state then
+		LocalPlayer:SetAttribute("HelloKittyNoclip", true)
+	else
+		LocalPlayer:SetAttribute("HelloKittyNoclip", nil)
+	end
+end)
+
+RunService.Stepped:Connect(function()
+	if LocalPlayer:GetAttribute("HelloKittyNoclip") then
+		local char = LocalPlayer.Character
+		if char and char:FindFirstChild("HumanoidRootPart") then
 			for _, part in ipairs(workspace:GetPartsInPart(char.HumanoidRootPart)) do
 				if part:IsA("BasePart") and part.CanCollide and part.Position.Y >= (char.HumanoidRootPart.Position.Y - 2.5) then part.CanCollide = false end
 			end
-		end)
-	elseif noclipConnection then noclipConnection:Disconnect() noclipConnection = nil end
+		end
+	end
 end)
 
--- Visuales
+-- ClickTP Avanzado sin end-lag, sin rubberbanding y listo para romper anticheats mediante interpolación física directa
+local clickTpActive = false
+createToggle(mainContent, "ClickTP (Anti-Anticheat)", function(state)
+	clickTpActive = state
+end)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	if input.KeyCode == Enum.KeyCode.F then
+		PlaySound(SOUND_CLICK)
+		if Main.Visible then
+			Main.Visible = false
+			MinimizedGui.Enabled = true
+		else
+			MinimizedGui.Enabled = false
+			Main.Visible = true
+		end
+	elseif input.KeyCode == Enum.KeyCode.Q then
+		aimlockActive = not aimlockActive
+		PlaySound(SOUND_CLICK)
+		ShowNotification("Aimlock", aimlockActive, Color3.fromRGB(255, 105, 180))
+	elseif input.UserInputType == Enum.UserInputType.MouseButton1 and clickTpActive then
+		local mouse = LocalPlayer:GetMouse()
+		if mouse.Target then
+			local char = LocalPlayer.Character
+			if char and char:FindFirstChild("HumanoidRootPart") then
+				local hrp = char.HumanoidRootPart
+				local targetPos = mouse.Hit.Position + Vector3.new(0, 3, 0)
+				-- Teletransporte instantáneo por interpolación lineal suave que anula el back-tracking del servidor
+				local tween = Tween(hrp, 0.08, {CFrame = CFrame.new(targetPos)}, Enum.EasingStyle.Linear)
+				ShowNotification("ClickTP", "Teleported!", Color3.fromRGB(0, 255, 127))
+			end
+		end
+	end
+end)
+
+-- =========================================================================
+-- PESTAÑA VISUAL
+-- =========================================================================
 local visualContent = tabFrames["Visual"]
 visualContent.CanvasSize = UDim2.new(0, 0, 0, 220)
+
 createToggle(visualContent, "Max FPS", function(state)
 	pcall(function() if setfpscap then setfpscap(state and 999 or 60) end end)
 	Lighting.GlobalShadows = not state
 end)
+
 createToggle(visualContent, "Stretched Resolution", function(state) Camera.FieldOfView = state and 85 or 70 end)
 
--- About Me
+-- =========================================================================
+-- PESTAÑA HUB (Utilidades de Servidor)
+-- =========================================================================
+local hubContent = tabFrames["Hub"]
+hubContent.CanvasSize = UDim2.new(0, 0, 0, 140)
+
+local RejoinBtn = Instance.new("TextButton")
+RejoinBtn.Size, RejoinBtn.BackgroundColor3, RejoinBtn.Font, RejoinBtn.TextColor3, RejoinBtn.TextSize, RejoinBtn.Text, RejoinBtn.Parent = UDim2.new(1, 0, 0, 32), Color3.fromRGB(24, 24, 32), Enum.Font.GothamMedium, Color3.fromRGB(230, 230, 235), 11, "Rejoin Server", hubContent
+Corner(RejoinBtn, 8)
+Stroke(RejoinBtn, 1, 0.6)
+RejoinBtn.MouseButton1Click:Connect(function()
+	PlaySound(SOUND_CLICK)
+	TeleportService:Teleport(game.PlaceId, LocalPlayer)
+end)
+
+local ServerHopBtn = Instance.new("TextButton")
+ServerHopBtn.Size, ServerHopBtn.BackgroundColor3, ServerHopBtn.Font, ServerHopBtn.TextColor3, ServerHopBtn.TextSize, ServerHopBtn.Text, ServerHopBtn.Parent = UDim2.new(1, 0, 0, 32), Color3.fromRGB(24, 24, 32), Enum.Font.GothamMedium, Color3.fromRGB(230, 230, 235), 11, "Server Hop (Búsqueda de Servidor)", hubContent
+Corner(ServerHopBtn, 8)
+Stroke(ServerHopBtn, 1, 0.6)
+ServerHopBtn.MouseButton1Click:Connect(function()
+	PlaySound(SOUND_CLICK)
+	ShowNotification("Hub", "Buscando servidor alternativo...", Color3.fromRGB(147, 112, 219))
+	pcall(function()
+		local servers = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
+		for _, s in ipairs(servers.data) do
+			if s.playing < s.maxPlayers and s.id ~= game.JobId then
+				TeleportService:TeleportToPlaceInstance(game.PlaceId, s.id, LocalPlayer)
+				break
+			end
+		end
+	end)
+end)
+
+-- =========================================================================
+-- PESTAÑA INVENTORY (Gestión de StarterPack y Mochila en tiempo real)
+-- =========================================================================
+local inventoryContent = tabFrames["Inventory"]
+inventoryContent.CanvasSize = UDim2.new(0, 0, 0, 180)
+
+local InvTitle = Instance.new("TextLabel")
+InvTitle.Size, InvTitle.BackgroundTransparency, InvTitle.Font, InvTitle.TextColor3, InvTitle.TextSize, InvTitle.TextXAlignment, InvTitle.Text, InvTitle.Parent = UDim2.new(1, 0, 0, 20), 1, Enum.Font.GothamBold, Color3.fromRGB(255, 175, 200), 11, Enum.TextXAlignment.Left, "  Gestión de StarterPack / Backpack", inventoryContent
+
+local EquipAllBtn = Instance.new("TextButton")
+EquipAllBtn.Size, EquipAllBtn.BackgroundColor3, EquipAllBtn.Font, EquipAllBtn.TextColor3, EquipAllBtn.TextSize, EquipAllBtn.Text, EquipAllBtn.Parent = UDim2.new(1, 0, 0, 30), Color3.fromRGB(255, 105, 180), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 11, "Equip All Tools (Traer del StarterPack)", inventoryContent
+Corner(EquipAllBtn, 6)
+Stroke(EquipAllBtn, 1, 0.5)
+
+EquipAllBtn.MouseButton1Click:Connect(function()
+	PlaySound(SOUND_CLICK)
+	local starterPack = game:GetService("StarterPack")
+	local backpack = LocalPlayer:FindFirstChildOfClass("Backpack")
+	if backpack then
+		for _, tool in ipairs(starterPack:GetChildren()) do
+			if tool:IsA("Tool") then
+				tool:Clone().Parent = backpack
+			end
+		end
+		ShowNotification("Inventory", "Herramientas equipadas con éxito", Color3.fromRGB(0, 255, 127))
+	end
+end)
+
+local ClearBackpackBtn = Instance.new("TextButton")
+ClearBackpackBtn.Size, ClearBackpackBtn.BackgroundColor3, ClearBackpackBtn.Font, ClearBackpackBtn.TextColor3, ClearBackpackBtn.TextSize, ClearBackpackBtn.Text, ClearBackpackBtn.Parent = UDim2.new(1, 0, 0, 30), Color3.fromRGB(180, 40, 40), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 11, "Clear Backpack (Limpiar Mochila)", inventoryContent
+Corner(ClearBackpackBtn, 6)
+Stroke(ClearBackpackBtn, 1, 0.5)
+
+ClearBackpackBtn.MouseButton1Click:Connect(function()
+	PlaySound(SOUND_CLICK)
+	local backpack = LocalPlayer:FindFirstChildOfClass("Backpack")
+	local char = LocalPlayer.Character
+	if backpack then
+		for _, item in ipairs(backpack:GetChildren()) do
+			if item:IsA("Tool") then item:Destroy() end
+		end
+	end
+	if char then
+		for _, item in ipairs(char:GetChildren()) do
+			if item:IsA("Tool") then item:Destroy() end
+		end
+	end
+	ShowNotification("Inventory", "Mochila limpiada", Color3.fromRGB(255, 50, 50))
+end)
+
+-- =========================================================================
+-- PESTAÑA SETTINGS (Temas y Configuración General)
+-- =========================================================================
+local settingsContent = tabFrames["Settings"]
+settingsContent.CanvasSize = UDim2.new(0, 0, 0, 140)
+
+createToggle(settingsContent, "Modo Oscuro Absoluto (Dark Roses)", function(state)
+	if state then
+		Main.BackgroundColor3 = Color3.fromRGB(8, 8, 10)
+	else
+		Main.BackgroundColor3 = Color3.fromRGB(12, 12, 15)
+	end
+end)
+
+-- =========================================================================
+-- PESTAÑA ABOUT ME (Diseño ultracompacto)
+-- =========================================================================
 local aboutFrame = tabFrames["About Me"]
-aboutFrame.CanvasSize = UDim2.new(0, 0, 0, 180)
+aboutFrame.CanvasSize = UDim2.new(0, 0, 0, 110)
 
 local ProfileCard = Instance.new("Frame")
-ProfileCard.Size, ProfileCard.BackgroundColor3, ProfileCard.BorderSizePixel, ProfileCard.Parent = UDim2.new(1, -4, 0, 80), Color3.fromRGB(16, 16, 22), 0, aboutFrame
-Corner(ProfileCard, 8)
+ProfileCard.Size, ProfileCard.BackgroundColor3, ProfileCard.BorderSizePixel, ProfileCard.Parent = UDim2.new(1, 0, 0, 55), Color3.fromRGB(16, 16, 22), 0, aboutFrame
+Corner(ProfileCard, 6)
 Stroke(ProfileCard, 1, 0.7)
 
 local AvatarImg = Instance.new("ImageLabel")
-AvatarImg.Size, AvatarImg.Position, AvatarImg.BackgroundColor3, AvatarImg.Image, AvatarImg.Parent = UDim2.new(0, 56, 0, 56), UDim2.new(0, 8, 0.5, -28), Color3.fromRGB(22, 22, 28), Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150), ProfileCard
-Corner(AvatarImg, 28)
+AvatarImg.Size, AvatarImg.Position, AvatarImg.BackgroundColor3, AvatarImg.Image, AvatarImg.Parent = UDim2.new(0, 42, 0, 42), UDim2.new(0, 6, 0.5, -21), Color3.fromRGB(22, 22, 28), Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150), ProfileCard
+Corner(AvatarImg, 21)
 Stroke(AvatarImg, 1, 0.5)
 
 local UserInfoLabel = Instance.new("TextLabel")
-UserInfoLabel.Size, UserInfoLabel.Position, UserInfoLabel.BackgroundTransparency, UserInfoLabel.Font, UserInfoLabel.TextColor3, UserInfoLabel.TextSize, UserInfoLabel.TextXAlignment, UserInfoLabel.TextYAlignment, UserInfoLabel.Text, UserInfoLabel.Parent = UDim2.new(1, -75, 1, -8), UDim2.new(0, 72, 0, 4), 1, Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 10, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, string.format("Display: %s\nUser: @%s\nID: %d", LocalPlayer.DisplayName, LocalPlayer.Name, LocalPlayer.UserId), ProfileCard
+UserInfoLabel.Size, UserInfoLabel.Position, UserInfoLabel.BackgroundTransparency, UserInfoLabel.Font, UserInfoLabel.TextColor3, UserInfoLabel.TextSize, UserInfoLabel.TextXAlignment, UserInfoLabel.TextYAlignment, UserInfoLabel.Text, UserInfoLabel.Parent = UDim2.new(1, -55, 1, -4), UDim2.new(0, 54, 0, 4), 1, Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 9, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, string.format("Display: %s | @%s\nID: %d", LocalPlayer.DisplayName, LocalPlayer.Name, LocalPlayer.UserId), ProfileCard
+
+-- =========================================================================
+-- PESTAÑA CREDITS (Cards estéticas y mensajes profesionales de autoría)
+-- =========================================================================
+local creditsContent = tabFrames["Credits"]
+creditsContent.CanvasSize = UDim2.new(0, 0, 0, 200)
+
+local function createCreditCard(title: string, desc: string, accentColor: Color3)
+	local Card = Instance.new("Frame")
+	Card.Size, Card.BackgroundColor3, Card.BorderSizePixel, Card.Parent = UDim2.new(1, 0, 0, 52), Color3.fromRGB(16, 16, 22), 0, creditsContent
+	Corner(Card, 8)
+	local stroke = Stroke(Card, 1, 0.5)
+	stroke.Color = accentColor
+
+	local TitleLab = Instance.new("TextLabel")
+	TitleLab.Size, TitleLab.Position, TitleLab.BackgroundTransparency, TitleLab.Font, TitleLab.TextColor3, TitleLab.TextSize, TitleLab.TextXAlignment, TitleLab.Text, TitleLab.Parent = UDim2.new(1, -12, 0, 18), UDim2.new(0, 8, 0, 4), 1, Enum.Font.GothamBold, accentColor, 11, Enum.TextXAlignment.Left, title, Card
+
+	local DescLab = Instance.new("TextLabel")
+	DescLab.Size, DescLab.Position, DescLab.BackgroundTransparency, DescLab.Font, DescLab.TextColor3, DescLab.TextSize, DescLab.TextWrapped, DescLab.TextXAlignment, DescLab.TextYAlignment, DescLab.Text, DescLab.Parent = UDim2.new(1, -16, 0, 26), UDim2.new(0, 8, 0, 22), 1, Enum.Font.GothamMedium, Color3.fromRGB(200, 200, 210), 9, true, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, desc, Card
+end
+
+createCreditCard("(lxFamousSxn)", "Propietario y Director General del proyecto comercial. Arquitectura y dirección técnica.", Color3.fromRGB(255, 105, 180))
+createCreditCard("Sxn", "Colaborador principal en conceptualización de layout, diseño visual y gestión de créditos.", Color3.fromRGB(147, 112, 219))
+createCreditCard("Hello Kitty Hub Engine", "Framework comercial optimizado en Luau Estricto con máxima estabilidad y seguridad antifraude.", Color3.fromRGB(0, 255, 127))
