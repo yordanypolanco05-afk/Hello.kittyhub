@@ -6,7 +6,6 @@ local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Verificación de seguridad estricta para funciones de desarrollo y admin
 local isMasterUser = (LocalPlayer.Name == "lxFamousSxn")
 
 local viewportSize = Camera.ViewportSize
@@ -60,7 +59,7 @@ local function Stroke(object: Instance, thickness: number?, transparency: number
 	return stroke
 end
 
--- Sistema de Notificaciones Compactas (Duración exacta de 1.5 segundos)
+-- Notificaciones Compactas (Duración de 1.5 segundos exacta)
 local NotificationGui = Instance.new("ScreenGui")
 NotificationGui.Name, NotificationGui.ResetOnSpawn, NotificationGui.Parent = "HelloKittyHub_Notifications", false, PlayerGui
 
@@ -91,14 +90,14 @@ local function ShowNotification(title: string, text: string, color: Color3?)
 		Card.Position = UDim2.new(1, 40, Card.Position.Scale, Card.Position.Offset)
 		Tween(Card, 0.2, {Position = UDim2.new(0, 0, 0, 0)}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 		
-		task.wait(1.5) -- Duración precisa solicitada
+		task.wait(1.5)
 		Tween(Card, 0.15, {Position = UDim2.new(1, 40, 0, 0), BackgroundTransparency = 1}, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
 		task.wait(0.15)
 		Card:Destroy()
 	end)
 end
 
--- Verificación de Blacklist Activa en tiempo real
+-- Verificación de Blacklist en tiempo real
 task.spawn(function()
 	while true do
 		task.wait(2)
@@ -149,10 +148,10 @@ local MinimizedImage = Instance.new("ImageLabel")
 MinimizedImage.Name, MinimizedImage.AnchorPoint, MinimizedImage.Position, MinimizedImage.Size = "MinimizedImage", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(28, 28)
 MinimizedImage.BackgroundTransparency, MinimizedImage.Image, MinimizedImage.Parent = 1, "rbxassetid://12140499119", MinimizedBtn
 
-local dragging, dragInput, dragStart, startPos, dragDistance = false, nil, nil, nil, 0
+local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
 MinimizedBtn.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging, dragStart, startPos, dragDistance = true, input.Position, MinimizedBtn.Position, 0
+		dragging, dragStart, startPos = true, input.Position, MinimizedBtn.Position
 	end
 end)
 MinimizedBtn.InputChanged:Connect(function(input)
@@ -161,7 +160,6 @@ end)
 UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
 		local delta = input.Position - dragStart
-		dragDistance = dragDistance + delta.Magnitude
 		MinimizedBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 	end
 end)
@@ -186,17 +184,15 @@ task.spawn(function()
 	end
 end)
 
--- Eliminado el End-Lag al restaurar la UI instantáneamente
+-- Sin End-Lag al restaurar
 MinimizedBtn.InputEnded:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = false
-		if dragDistance < 8 then
-			PlaySound(SOUND_OPEN)
-			MinimizedGui.Enabled = false
-			Main.Size = UDim2.fromOffset(frameWidth, frameHeight)
-			Main.BackgroundTransparency = 0
-			Main.Visible = true
-		end
+		PlaySound(SOUND_OPEN)
+		MinimizedGui.Enabled = false
+		Main.Size = UDim2.fromOffset(frameWidth, frameHeight)
+		Main.BackgroundTransparency = 0
+		Main.Visible = true
 	end
 end)
 
@@ -240,7 +236,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
 	MinimizedGui.Enabled = true
 end)
 
--- Key System con imagen de fondo ID: 13030857110 y Moño de lado ID: 12873564586
+-- Key System con Fondo ID: 13030857110 y Moño de Hello Kitty (ID: 12873564586) como botón de cerrar (X)
 local KeyFrame = Instance.new("Frame")
 KeyFrame.Name, KeyFrame.AnchorPoint, KeyFrame.Position, KeyFrame.Size = "KeyFrame", Vector2.new(0.5, 0.5), UDim2.fromScale(0.5, 0.5), UDim2.fromOffset(keyFrameWidth, keyFrameHeight)
 KeyFrame.BackgroundColor3, KeyFrame.BorderSizePixel, KeyFrame.Active, KeyFrame.Draggable, KeyFrame.ClipsDescendants, KeyFrame.Parent = Color3.fromRGB(10, 10, 14), 0, true, true, true, ScreenGui
@@ -264,14 +260,11 @@ end)
 local KeyBgImage = Instance.new("ImageLabel")
 KeyBgImage.Size, KeyBgImage.BackgroundTransparency, KeyBgImage.Image, KeyBgImage.ScaleType, KeyBgImage.Parent = UDim2.fromScale(1, 1), 0.3, "rbxassetid://13030857110", Enum.ScaleType.Crop, KeyFrame
 
--- Moño decorativo de Hello Kitty arrecostado de lado (ID: 12873564586)
-local KeyBowDecor = Instance.new("ImageLabel")
-KeyBowDecor.Size, KeyBowDecor.Position, KeyBowDecor.BackgroundTransparency, KeyBowDecor.Image, KeyBowDecor.Rotation, KeyBowDecor.ZIndex, KeyBowDecor.Parent = UDim2.fromOffset(36, 36), UDim2.new(0, -10, 0, -10), 1, "rbxassetid://12873564586", 25, 10, KeyFrame
-
-local KeyCloseBtn = Instance.new("ImageButton")
-KeyCloseBtn.Name, KeyCloseBtn.AnchorPoint, KeyCloseBtn.Position, KeyCloseBtn.Size = "KeyCloseBtn", Vector2.new(1, 0), UDim2.new(0.97, 0, 0, 8), UDim2.fromOffset(22, 22)
-KeyCloseBtn.BackgroundTransparency, KeyCloseBtn.BorderSizePixel, KeyCloseBtn.AutoButtonColor, KeyCloseBtn.Image, KeyCloseBtn.ZIndex, KeyCloseBtn.Parent = 1, 0, false, "rbxassetid://6550202405", 6, KeyFrame
-KeyCloseBtn.MouseButton1Click:Connect(function() GlassBreakClose(KeyFrame, function() ScreenGui:Destroy() FOVGui:Destroy() NotificationGui:Destroy() end) end)
+-- El moño de Hello Kitty funcionando como el botón de cierre (X) inclinado de lado
+local KeyCloseBowBtn = Instance.new("ImageButton")
+KeyCloseBowBtn.Name, KeyCloseBowBtn.AnchorPoint, KeyCloseBowBtn.Position, KeyCloseBowBtn.Size = "KeyCloseBowBtn", Vector2.new(1, 0), UDim2.new(0.97, 0, 0, 6), UDim2.fromOffset(28, 28)
+KeyCloseBowBtn.BackgroundTransparency, KeyCloseBowBtn.Image, KeyCloseBowBtn.Rotation, KeyCloseBowBtn.ZIndex, KeyCloseBowBtn.Parent = 1, "rbxassetid://12873564586", 15, 10, KeyFrame
+KeyCloseBowBtn.MouseButton1Click:Connect(function() GlassBreakClose(KeyFrame, function() ScreenGui:Destroy() FOVGui:Destroy() NotificationGui:Destroy() end) end)
 
 local KeyLeftArea = Instance.new("Frame")
 KeyLeftArea.Size, KeyLeftArea.BackgroundTransparency, KeyLeftArea.ZIndex, KeyLeftArea.Parent = UDim2.new(0.55, 0, 1, 0), 1, 3, KeyFrame
@@ -323,22 +316,20 @@ end)
 KeyFrame.Size, KeyFrame.BackgroundTransparency = UDim2.fromOffset(0, 0), 1
 Tween(KeyFrame, 0.35, {Size = UDim2.fromOffset(keyFrameWidth, keyFrameHeight), BackgroundTransparency = 0}, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
 
--- Categorías (Pestañas) con ScrollingFrame horizontal para deslizar
+-- Categorías más estrechas y con desplazamiento horizontal (ScrollingFrame)
 local contentAreaWidth = frameWidth - 24
 local TabBarContainer = Instance.new("ScrollingFrame")
 TabBarContainer.Name, TabBarContainer.Size, TabBarContainer.Position, TabBarContainer.BackgroundTransparency, TabBarContainer.ScrollBarThickness, TabBarContainer.Parent = "TabBarContainer", UDim2.new(0, contentAreaWidth, 0, 26), UDim2.new(0, 12, 0, 48), 1, 0, UIContentContainer
 TabBarContainer.ScrollingDirection = Enum.ScrollingDirection.X
-TabBarContainer.CanvasSize = UDim2.new(0, 550, 0, 26)
+TabBarContainer.CanvasSize = UDim2.new(0, 600, 0, 26)
 
 local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.FillDirection, UIListLayout.HorizontalAlignment, UIListLayout.SortOrder, UIListLayout.Padding, UIListLayout.Parent = Enum.FillDirection.Horizontal, Enum.HorizontalAlignment.Left, Enum.SortOrder.LayoutOrder, UDim.new(0, 4), TabBarContainer
+UIListLayout.FillDirection, UIListLayout.HorizontalAlignment, UIListLayout.SortOrder, UIListLayout.Padding, UIListLayout.Parent = Enum.FillDirection.Horizontal, Enum.HorizontalAlignment.Left, Enum.SortOrder.LayoutOrder, UDim.new(0, 3), TabBarContainer
 
 local ContainerArea = Instance.new("Frame")
 ContainerArea.Name, ContainerArea.Size, ContainerArea.Position, ContainerArea.BackgroundTransparency, ContainerArea.Parent = "ContainerArea", UDim2.new(0, contentAreaWidth, 0, frameHeight - 84), UDim2.new(0, 12, 0, 78), 1, UIContentContainer
 
 local tabs = {"Main", "Visual", "Hub", "Inventory", "Settings", "About Me", "Credits"}
-
--- Si es lxFamousSxn, añadimos las pestañas privadas de Executor y Admin
 if isMasterUser then
 	table.insert(tabs, "Executor")
 	table.insert(tabs, "Admin")
@@ -348,9 +339,9 @@ local tabFrames, tabButtons = {}, {}
 
 local function createTab(tabName: string, index: number)
 	local TabBtn = Instance.new("TextButton")
-	TabBtn.Name, TabBtn.Size, TabBtn.BackgroundColor3 = tabName .. "TabBtn", UDim2.new(0, 72, 0, 24), Color3.fromRGB(18, 18, 22)
-	TabBtn.Text, TabBtn.TextColor3, TabBtn.TextSize, TabBtn.Font, TabBtn.AutoButtonColor, TabBtn.LayoutOrder, TabBtn.Parent = tabName, Color3.fromRGB(150, 150, 155), isMobile and 7 or 9, Enum.Font.GothamMedium, false, index, TabBarContainer
-	Corner(TabBtn, 6)
+	TabBtn.Name, TabBtn.Size, TabBtn.BackgroundColor3 = tabName .. "TabBtn", UDim2.new(0, 62, 0, 24), Color3.fromRGB(18, 18, 22)
+	TabBtn.Text, TabBtn.TextColor3, TabBtn.TextSize, TabBtn.Font, TabBtn.AutoButtonColor, TabBtn.LayoutOrder, TabBtn.Parent = tabName, Color3.fromRGB(150, 150, 155), isMobile and 6 or 8, Enum.Font.GothamMedium, false, index, TabBarContainer
+	Corner(TabBtn, 5)
 	local BtnStroke = Stroke(TabBtn, 1, 0.6)
 
 	local ContentScroll = Instance.new("ScrollingFrame")
@@ -378,7 +369,7 @@ local function createTab(tabName: string, index: number)
 end
 
 for i, name in ipairs(tabs) do createTab(name, i) end
-TabBarContainer.CanvasSize = UDim2.new(0, #tabs * 76, 0, 26)
+TabBarContainer.CanvasSize = UDim2.new(0, #tabs * 66, 0, 26)
 
 if tabButtons["Main"] then
 	tabButtons["Main"].Btn.BackgroundColor3, tabButtons["Main"].Btn.TextColor3 = Color3.fromRGB(28, 28, 35), Color3.fromRGB(255, 255, 255)
@@ -427,7 +418,7 @@ local function createToggle(parent: Instance, title: string, callback: (boolean)
 end
 
 -- =========================================================================
--- CATEGORÍA EXECUTOR (Exclusivo lxFamousSxn)
+-- PESTAÑA EXECUTOR (Estilo Moderno Exclusivo lxFamousSxn)
 -- =========================================================================
 if isMasterUser and tabFrames["Executor"] then
 	local execContent = tabFrames["Executor"]
@@ -436,7 +427,6 @@ if isMasterUser and tabFrames["Executor"] then
 	local ExecTitle = Instance.new("TextLabel")
 	ExecTitle.Size, ExecTitle.BackgroundTransparency, ExecTitle.Font, ExecTitle.TextColor3, ExecTitle.TextSize, ExecTitle.TextXAlignment, ExecTitle.Text, ExecTitle.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  Luau Script Executor:", execContent
 
-	-- Editor de texto avanzado con contador de líneas
 	local CodeBox = Instance.new("TextBox")
 	CodeBox.Size, CodeBox.BackgroundColor3, CodeBox.Font, CodeBox.MultiLine, CodeBox.ClearTextOnFocus, CodeBox.Text, CodeBox.TextColor3, CodeBox.TextSize, CodeBox.TextXAlignment, CodeBox.TextYAlignment, CodeBox.Parent = UDim2.new(1, 0, 0, 110), Color3.fromRGB(16, 16, 22), Enum.Font.Code, true, false, "-- Escribe tu script aquí...\nprint('Hello from lxFamousSxn!')", Color3.fromRGB(0, 255, 127), 10, Enum.TextXAlignment.Left, Enum.TextYAlignment.Top, execContent
 	Corner(CodeBox, 6)
@@ -450,7 +440,6 @@ if isMasterUser and tabFrames["Executor"] then
 		LineCounter.Text = "Líneas: " .. tostring(count + 1)
 	end)
 
-	-- Selector de Destino (StarterGui / Client vs Server)
 	local TargetModeBtn = Instance.new("TextButton")
 	TargetModeBtn.Size, TargetModeBtn.BackgroundColor3, TargetModeBtn.Font, TargetModeBtn.TextColor3, TargetModeBtn.TextSize, TargetModeBtn.Text, TargetModeBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(24, 24, 32), Enum.Font.GothamMedium, Color3.fromRGB(220, 220, 225), 10, "Destino: StarterGui (Cliente)", execContent
 	Corner(TargetModeBtn, 6)
@@ -492,43 +481,42 @@ if isMasterUser and tabFrames["Executor"] then
 end
 
 -- =========================================================================
--- CATEGORÍA ADMIN (Exclusivo lxFamousSxn con Autocompletado, Blacklist y Rangos)
+-- PESTAÑA ADMIN (Ultra-Moderna, Autocompletado con Avatares, Blacklist y Rangos)
 -- =========================================================================
 if isMasterUser and tabFrames["Admin"] then
 	local adminContent = tabFrames["Admin"]
-	adminContent.CanvasSize = UDim2.new(0, 0, 0, 340)
+	adminContent.CanvasSize = UDim2.new(0, 0, 0, 360)
 
-	-- SECCIÓN 1: DAR ACCESO A CATEGORÍAS PRIVADAS
+	-- SECCIÓN 1: ACCESO A CATEGORÍAS PRIVADAS
 	local Sec1Title = Instance.new("TextLabel")
-	Sec1Title.Size, Sec1Title.BackgroundTransparency, Sec1Title.Font, Sec1Title.TextColor3, Sec1Title.TextSize, Sec1Title.TextXAlignment, Sec1Title.Text, Sec1Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  1. Acceso a Categorías Privadas:", adminContent
+	Sec1Title.Size, Sec1Title.BackgroundTransparency, Sec1Title.Font, Sec1Title.TextColor3, Sec1Title.TextSize, Sec1Title.TextXAlignment, Sec1Title.Text, Sec1Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(255, 175, 200), 11, Enum.TextXAlignment.Left, "  ▸ Acceso a Categorías Privadas", adminContent
 
 	local AccessBox = Instance.new("TextBox")
-	AccessBox.Size, AccessBox.BackgroundColor3, AccessBox.Font, AccessBox.PlaceholderText, AccessBox.PlaceholderColor3, AccessBox.Text, AccessBox.TextColor3, AccessBox.TextSize, AccessBox.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Escribe nombre de usuario...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 10, adminContent
+	AccessBox.Size, AccessBox.BackgroundColor3, AccessBox.Font, AccessBox.PlaceholderText, AccessBox.PlaceholderColor3, AccessBox.Text, AccessBox.TextColor3, AccessBox.TextSize, AccessBox.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Selecciona o escribe categoría...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 10, adminContent
 	Corner(AccessBox, 6)
 	Stroke(AccessBox, 1, 0.7)
 
 	local AccessCatBtn = Instance.new("TextButton")
-	AccessCatBtn.Size, AccessCatBtn.BackgroundColor3, AccessCatBtn.Font, AccessCatBtn.TextColor3, AccessCatBtn.TextSize, AccessCatBtn.Text, AccessCatBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(40, 120, 180), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Otorgar Acceso a Privadas", adminContent
+	AccessCatBtn.Size, AccessCatBtn.BackgroundColor3, AccessCatBtn.Font, AccessCatBtn.TextColor3, AccessCatBtn.TextSize, AccessCatBtn.Text, AccessCatBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(40, 120, 180), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Otorgar Acceso", adminContent
 	Corner(AccessCatBtn, 6)
 	Stroke(AccessCatBtn, 1, 0.5)
 
 	AccessCatBtn.MouseButton1Click:Connect(function()
 		PlaySound(SOUND_CLICK)
-		ShowNotification("Admin", "Acceso concedido a " .. AccessBox.Text, Color3.fromRGB(0, 255, 127))
+		ShowNotification("Admin", "Acceso concedido correctamente", Color3.fromRGB(0, 255, 127))
 	end)
 
-	-- SECCIÓN 2: DAR BLACKLIST (Baneo / Kick + Bloqueo de UI)
+	-- SECCIÓN 2: BLACKLIST CON AUTOCOMPLETADO Y AVATARES EN VIVO
 	local Sec2Title = Instance.new("TextLabel")
-	Sec2Title.Size, Sec2Title.BackgroundTransparency, Sec2Title.Font, Sec2Title.TextColor3, Sec2Title.TextSize, Sec2Title.TextXAlignment, Sec2Title.Text, Sec2Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  2. Sistema de Blacklist:", adminContent
+	Sec2Title.Size, Sec2Title.BackgroundTransparency, Sec2Title.Font, Sec2Title.TextColor3, Sec2Title.TextSize, Sec2Title.TextXAlignment, Sec2Title.Text, Sec2Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(255, 105, 180), 11, Enum.TextXAlignment.Left, "  ▸ Gestión de Blacklist (Kick automático)", adminContent
 
 	local BlacklistInput = Instance.new("TextBox")
-	BlacklistInput.Size, BlacklistInput.BackgroundColor3, BlacklistInput.Font, BlacklistInput.PlaceholderText, BlacklistInput.PlaceholderColor3, BlacklistInput.Text, BlacklistInput.TextColor3, BlacklistInput.TextSize, BlacklistInput.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Buscar jugador para Blacklist...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 10, adminContent
+	BlacklistInput.Size, BlacklistInput.BackgroundColor3, BlacklistInput.Font, BlacklistInput.PlaceholderText, BlacklistInput.PlaceholderColor3, BlacklistInput.Text, BlacklistInput.TextColor3, BlacklistInput.TextSize, BlacklistInput.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(16, 16, 22), Enum.Font.GothamMedium, "Escribe nombre de usuario...", Color3.fromRGB(120, 120, 125), "", Color3.fromRGB(255, 255, 255), 10, adminContent
 	Corner(BlacklistInput, 6)
 	Stroke(BlacklistInput, 1, 0.7)
 
-	-- Contenedor de Autocompletado con Avatares
 	local AutoCompleteScroll = Instance.new("ScrollingFrame")
-	AutoCompleteScroll.Size, AutoCompleteScroll.BackgroundColor3, AutoCompleteScroll.BorderSizePixel, AutoCompleteScroll.Visible, AutoCompleteScroll.ScrollBarThickness, AutoCompleteScroll.Parent = UDim2.new(1, 0, 0, 60), Color3.fromRGB(20, 20, 28), 0, false, 2, adminContent
+	AutoCompleteScroll.Size, AutoCompleteScroll.BackgroundColor3, AutoCompleteScroll.BorderSizePixel, AutoCompleteScroll.Visible, AutoCompleteScroll.ScrollBarThickness, AutoCompleteScroll.Parent = UDim2.new(1, 0, 0, 75), Color3.fromRGB(14, 14, 20), 0, false, 2, adminContent
 	Corner(AutoCompleteScroll, 6)
 	Stroke(AutoCompleteScroll, 1, 0.6)
 
@@ -553,21 +541,28 @@ if isMasterUser and tabFrames["Admin"] then
 				AutoCompleteScroll.Visible = true
 				
 				local matchBtn = Instance.new("TextButton")
-				matchBtn.Size, matchBtn.BackgroundColor3, matchBtn.Font, matchBtn.TextColor3, matchBtn.TextSize, matchBtn.TextXAlignment, matchBtn.Text, matchBtn.Parent = UDim2.new(1, 0, 0, 24), Color3.fromRGB(28, 28, 38), Enum.Font.GothamMedium, Color3.fromRGB(240, 240, 245), 10, Enum.TextXAlignment.Left, "  @" .. plr.Name .. " (" .. plr.DisplayName .. ")", AutoCompleteScroll
+				matchBtn.Size, matchBtn.BackgroundColor3, matchBtn.Font, matchBtn.TextColor3, matchBtn.TextSize, matchBtn.TextXAlignment, matchBtn.Text, matchBtn.Parent = UDim2.new(1, 0, 0, 24), Color3.fromRGB(24, 24, 32), Enum.Font.GothamMedium, Color3.fromRGB(240, 240, 245), 10, Enum.TextXAlignment.Left, "  @" .. plr.Name .. " (" .. plr.DisplayName .. ")", AutoCompleteScroll
 				Corner(matchBtn, 4)
 				
+				-- Mini avatar en el autocompletado
+				pcall(function()
+					local thumb = Instance.new("ImageLabel")
+					thumb.Size, thumb.Position, thumb.BackgroundTransparency = UDim2.fromOffset(20, 20), UDim2.new(1, -22, 0.5, -10), 1
+					thumb.Image = Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size48x48)
+					thumb.Parent = matchBtn
+				end)
+
 				matchBtn.MouseButton1Click:Connect(function()
 					BlacklistInput.Text = plr.Name
 					AutoCompleteScroll.Visible = false
 				end)
 			end
 		end
-		
 		if matches == 0 then AutoCompleteScroll.Visible = false end
 	end)
 
 	local ApplyBlacklistBtn = Instance.new("TextButton")
-	ApplyBlacklistBtn.Size, ApplyBlacklistBtn.BackgroundColor3, ApplyBlacklistBtn.Font, ApplyBlacklistBtn.TextColor3, ApplyBlacklistBtn.TextSize, ApplyBlacklistBtn.Text, ApplyBlacklistBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(180, 40, 40), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Aplicar Blacklist (Kick)", adminContent
+	ApplyBlacklistBtn.Size, ApplyBlacklistBtn.BackgroundColor3, ApplyBlacklistBtn.Font, ApplyBlacklistBtn.TextColor3, ApplyBlacklistBtn.TextSize, ApplyBlacklistBtn.Text, ApplyBlacklistBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(180, 40, 40), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Aplicar Blacklist", adminContent
 	Corner(ApplyBlacklistBtn, 6)
 	Stroke(ApplyBlacklistBtn, 1, 0.5)
 
@@ -580,12 +575,12 @@ if isMasterUser and tabFrames["Admin"] then
 		if targetPlr then
 			targetPlr:Kick("Estás en lista negra de hellokitty")
 		end
-		ShowNotification("Admin", "Jugador añadido a Blacklist", Color3.fromRGB(255, 50, 50))
+		ShowNotification("Admin", "Usuario añadido a lista negra", Color3.fromRGB(255, 50, 50))
 	end)
 
-	-- SECCIÓN 3: DAR ADMIN CON RANGOS
+	-- SECCIÓN 3: ASIGNACIÓN DE RANGOS ADMIN
 	local Sec3Title = Instance.new("TextLabel")
-	Sec3Title.Size, Sec3Title.BackgroundTransparency, Sec3Title.Font, Sec3Title.TextColor3, Sec3Title.TextSize, Sec3Title.TextXAlignment, Sec3Title.Text, Sec3Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(200, 200, 205), 11, Enum.TextXAlignment.Left, "  3. Asignación de Rangos Admin:", adminContent
+	Sec3Title.Size, Sec3Title.BackgroundTransparency, Sec3Title.Font, Sec3Title.TextColor3, Sec3Title.TextSize, Sec3Title.TextXAlignment, Sec3Title.Text, Sec3Title.Parent = UDim2.new(1, 0, 0, 18), 1, Enum.Font.GothamBold, Color3.fromRGB(147, 112, 219), 11, Enum.TextXAlignment.Left, "  ▸ Asignación de Rango Admin", adminContent
 
 	local RankContainer = Instance.new("Frame")
 	RankContainer.Size, RankContainer.BackgroundColor3, RankContainer.BorderSizePixel, RankContainer.Parent = UDim2.new(1, 0, 0, 28), Color3.fromRGB(16, 16, 22), 0, adminContent
@@ -596,26 +591,26 @@ if isMasterUser and tabFrames["Admin"] then
 	local currentRankIndex = 1
 
 	local RankToggleBtn = Instance.new("TextButton")
-	RankToggleBtn.Size, RankToggleBtn.BackgroundTransparency, RankToggleBtn.Font, RankToggleBtn.TextColor3, RankToggleBtn.TextSize, RankToggleBtn.Text, RankToggleBtn.Parent = UDim2.fromScale(1, 1), 1, Enum.Font.GothamMedium, Color3.fromRGB(255, 175, 200), 10, "Rango Seleccionado: developer", RankContainer
+	RankToggleBtn.Size, RankToggleBtn.BackgroundTransparency, RankToggleBtn.Font, RankToggleBtn.TextColor3, RankToggleBtn.TextSize, RankToggleBtn.Text, RankToggleBtn.Parent = UDim2.fromScale(1, 1), 1, Enum.Font.GothamMedium, Color3.fromRGB(255, 175, 200), 10, "Rango: developer", RankContainer
 
 	RankToggleBtn.MouseButton1Click:Connect(function()
 		PlaySound(SOUND_CLICK)
 		currentRankIndex = (currentRankIndex % #ranks) + 1
-		RankToggleBtn.Text = "Rango Seleccionado: " .. ranks[currentRankIndex]
+		RankToggleBtn.Text = "Rango: " .. ranks[currentRankIndex]
 	end)
 
 	local GiveRankBtn = Instance.new("TextButton")
-	GiveRankBtn.Size, GiveRankBtn.BackgroundColor3, GiveRankBtn.Font, GiveRankBtn.TextColor3, GiveRankBtn.TextSize, GiveRankBtn.Text, GiveRankBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(0, 200, 100), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Otorgar Rango Admin", adminContent
+	GiveRankBtn.Size, GiveRankBtn.BackgroundColor3, GiveRankBtn.Font, GiveRankBtn.TextColor3, GiveRankBtn.TextSize, GiveRankBtn.Text, GiveRankBtn.Parent = UDim2.new(1, 0, 0, 26), Color3.fromRGB(0, 200, 100), Enum.Font.GothamBold, Color3.fromRGB(255, 255, 255), 10, "Confirmar y Asignar Rango", adminContent
 	Corner(GiveRankBtn, 6)
 	Stroke(GiveRankBtn, 1, 0.5)
 
 	GiveRankBtn.MouseButton1Click:Connect(function()
 		PlaySound(SOUND_CLICK)
-		ShowNotification("Admin", "Rango asignado correctamente", Color3.fromRGB(0, 255, 127))
+		ShowNotification("Admin", "Rango asignado con éxito", Color3.fromRGB(0, 255, 127))
 	end)
 end
 
--- Funcionalidades de las pestañas estándar (Main, Visual, Hub, Inventory, Settings, About Me, Credits)
+-- Módulos estándar funcionales (Main, Visual, Hub, Inventory, Settings, About Me, Credits)
 local mainContent = tabFrames["Main"]
 mainContent.CanvasSize = UDim2.new(0, 0, 0, 220)
 
@@ -749,18 +744,16 @@ createToggle(mainContent, "Noclip", function(state)
 	elseif noclipConnection then noclipConnection:Disconnect() noclipConnection = nil end
 end)
 
--- Visuales estándar
+-- Visuales
 local visualContent = tabFrames["Visual"]
 visualContent.CanvasSize = UDim2.new(0, 0, 0, 220)
-
 createToggle(visualContent, "Max FPS", function(state)
 	pcall(function() if setfpscap then setfpscap(state and 999 or 60) end end)
 	Lighting.GlobalShadows = not state
 end)
-
 createToggle(visualContent, "Stretched Resolution", function(state) Camera.FieldOfView = state and 85 or 70 end)
 
--- About Me & Credits estándar
+-- About Me
 local aboutFrame = tabFrames["About Me"]
 aboutFrame.CanvasSize = UDim2.new(0, 0, 0, 180)
 
